@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable; // Use Authenticatable for authentication
 use Illuminate\Notifications\Notifiable;
-// Remove this line: use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Staff extends Authenticatable // Extend Authenticatable
 {
-    use HasFactory, Notifiable; // Remove HasApiTokens from here as well
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +19,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // Added 'role' if you want to mass-assign it
     ];
 
     /**
