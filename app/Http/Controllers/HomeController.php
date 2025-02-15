@@ -10,8 +10,9 @@ class HomeController extends Controller
     /**
      * Show the application homepage.
      */
-    public function index(): View // Specify that it returns a View
+    public function index(Request $request): View // Specify that it returns a View
     {
-        return view('welcome'); // Return the 'welcome' view (default Laravel welcome page)
+        $tableId = $request->query('table');
+        return view('welcome', ['tableId' => $tableId]); // Return the 'welcome' view (default Laravel welcome page)
     }
 }

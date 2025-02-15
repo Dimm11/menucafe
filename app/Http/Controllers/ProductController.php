@@ -2,21 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product; // Import the Product model
+use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\View\View; // Import the View class
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the products (menu items).
+     * Display a listing of the products (menu items), optionally filtered by table.
+     *
+     * @param Request $request
+     * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $products = Product::all(); // Fetch all products from the database
+        $tableId = $request->query('table'); // Ambil parameter 'table' dari query string
 
-        return view('products.index', ['products' => $products]); // Pass the products data to the 'products.index' view
+        if ($tableId && is_numeric($tableId)) {
+            // Jika parameter 'table' ada dan berupa angka, kita filter produk (opsional)
+            // Saat ini, kita tetap mengambil semua produk.
+            // Anda bisa menambahkan logika filter produk berdasarkan $tableId di sini jika diperlukan.
+            $products = Product::all();
+
+            return view('products.index', [
+                'products' => $products,
+                'tableId' => $tableId, // Kirim tableId ke view agar bisa digunakan
+            ]);
+        } else {
+            // Jika parameter 'table' tidak ada atau bukan angka, tampilkan semua produk
+            $products = Product::all();
+
+            return view('products.index', ['products' => $products]);
+        }
     }
 
-    // We'll add more actions (methods) later for creating, editing, etc., if needed.
+    // Fungsi lain seperti create, edit, dll. bisa ditambahkan di sini jika diperlukan.
 }
