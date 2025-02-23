@@ -18,5 +18,15 @@ class ProductController extends Controller
         return view('products.index', ['products' => $products]); // Pass the products data to the 'products.index' view
     }
 
+    public function cart()
+    {
+        return view('products.cart'); // Render the cart view
+    }
+
+    public function checkout()
+    {
+        return view('products.checkout');
+    }
+
     // We'll add more actions (methods) later for creating, editing, etc., if needed.
 }

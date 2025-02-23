@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
+Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
 Route::post('/orders', [WorkOrderController::class, 'store'])->name('orders.store');
 
 // Staff Routes - Authentication, Dashboard, Orders, and Staff User & Product Management

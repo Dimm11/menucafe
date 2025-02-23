@@ -66,9 +66,9 @@
             <div style="margin-bottom: 15px;">
                 <label for="status">Status:</label>
                 <select name="status" id="status" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-                    <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="preparing" {{ $order->status == 'preparing' ? 'selected' : '' }}>Preparing</option>
-                    <option value="served" {{ $order->status == 'served' ? 'selected' : '' }}>Served</option>
+                    <option value="belum_bayar" {{ $order->status == 'belum_bayar' ? 'selected' : '' }}>Belum Bayar</option>
+                    <option value="sudah_bayar" {{ $order->status == 'sudah_bayar' ? 'selected' : '' }}>Sudah Bayar</option>
+                    <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
                     <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
                 </select>
             </div>

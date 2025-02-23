@@ -5,8 +5,177 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cafe Menu</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        /* Modal Styles - Updated to match design */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%;
+            border-radius: 8px;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .modal-product-image-container {
+            text-align: center;
+        }
+
+        .modal-product-image {
+            max-width: 90%;
+            max-height: 300px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            object-fit: contain;
+        }
+
+        .modal-product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .modal-cart-icon {
+            font-size: 24px;
+            color: #555;
+        }
+
+        .modal-quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .quantity-button {
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #eee;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .quantity-button:hover {
+            background-color: #ddd;
+        }
+
+        .item-quantity {
+            margin: 0 10px;
+            font-size: 18px;
+        }
+
+        #modal-add-to-cart-button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        #modal-add-to-cart-button:hover {
+            background-color: #45a049;
+        }
+
+        .modal-back-button {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .modal-back-button i {
+            margin-right: 5px;
+            font-size: 18px;
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 28px;
+            font-weight: bold;
+            padding: 0 10px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Shopping Cart Icon Styling */
+        #cart-icon-container {
+            position: fixed; /* Fixed to viewport */
+            top: 20px;
+            right: 20px;
+            z-index: 1000; /* Ensure it's on top of other elements */
+        }
+
+        #cart-icon-link {
+            display: inline-block;
+            padding: 10px;
+            background-color: #f8f9fa; /* Light background */
+            border-radius: 50%; /* Circular shape */
+            color: #495057; /* Dark gray color */
+            text-decoration: none;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+            opacity: 0.8; /* Slightly transparent initially */
+        }
+
+        #cart-icon-link:hover {
+            background-color: #e9ecef; /* Slightly darker on hover */
+            opacity: 1; /* Fully opaque on hover */
+        }
+
+        #cart-icon-link[disabled] {
+            opacity: 0.5; /* More transparent when disabled */
+            cursor: default; /* No pointer cursor when disabled */
+            pointer-events: none; /* Prevent clicks when disabled */
+        }
+
+        #cart-icon-link i {
+            font-size: 24px; /* Size of the cart icon */
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- Font Awesome for icons -->
 </head>
 
 <body>
@@ -17,233 +186,190 @@
         <input type="text" id="table-number" name="table_number">
     </div>
 
-    <div id="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;"> {{-- Product Grid Container --}}
+    <div id="product-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+        {{-- Product Grid Container --}}
         @foreach ($products as $product)
-            <div class="product-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);"> {{-- Product Card Container --}}
-                <img src="{{ $product->product_pict }}" alt="{{ $product->nama }}" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;"> {{-- Product Image --}}
+            <div class="product-card"
+                style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);"
+                data-product-id="{{ $product->id }}" data-product-nama="{{ $product->nama }}"
+                data-product-deskripsi="{{ $product->deskripsi }}" data-product-harga="{{ $product->harga }}"
+                data-product-pict="{{ $product->product_pict }}"> {{-- Product Card Container --}}
+                <img src="{{ $product->product_pict }}" alt="{{ $product->nama }}"
+                    style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;"> {{-- Product Image --}}
                 <h3 style="margin-bottom: 5px;">{{ $product->nama }}</h3> {{-- Product Name --}}
                 <p style="color: #777; margin-bottom: 10px;">{{ $product->deskripsi }}</p> {{-- Product Description --}}
-                <p class="price" style="font-weight: bold; margin-bottom: 15px;">Price: ${{ number_format($product->harga, 2) }}</p> {{-- Product Price --}}
-                <button class="add-to-order-button" style="padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Add to Order</button> {{-- Add to Order Button --}}
+                <p class="price" style="font-weight: bold; margin-bottom: 15px;">Price:
+                    ${{ number_format($product->harga, 2) }}</p> {{-- Product Price --}}
+                <button class="detail-button"
+                    style="padding: 8px 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Detail</button>
+                {{-- Detail Button --}}
             </div>
         @endforeach
     </div>
 
-    <h2>Your Order</h2>
-    <div id="cart-items">
-        <p id="empty-cart-message" style="display: none;">Your cart is empty.</p>
-        <ul id="cart-item-list" style="list-style: none; padding-left: 0;">
-        </ul>
-        <div id="order-total" style="margin-top: 10px; font-weight: bold;">
-            Total: $0.00
-        </div>
+    <div id="cart-icon-container">
+        <a href="{{ route('cart.index') }}" id="cart-icon-link" disabled>
+            <i class="fas fa-shopping-cart"></i>
+        </a>
     </div>
 
-    <button id="review-order-button" disabled>Review Order</button>
-    <div id="order-review-section" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 5px; background-color: #f8f8f8;">
-        <h2>Review Your Order</h2>
-        <ul id="order-review-items" style="list-style: none; padding-left: 0;">
-        </ul>
-        <div id="order-review-total" style="margin-top: 10px; font-weight: bold;">
-        </div>
-        <button id="confirm-order-button">Confirm Order</button>
-        <button id="back-to-menu-button" style="margin-left: 10px;">Back to Menu</button>
+
+    <div id="order-confirmation-message" style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; background-color: #e0f7fa;">
     </div>
 
-    <div id="order-confirmation-message"
-        style="display: none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; background-color: #e0f7fa;">
+    <!-- The Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-product-image-container">
+                <img id="modal-product-pict" src="" alt="Product Picture" class="modal-product-image">
+            </div>
+            <div class="modal-product-details">
+                <div class="modal-header">
+                    <h2 id="modal-product-nama"></h2>
+                    <i class="fas fa-shopping-cart modal-cart-icon"></i>
+                </div>
+                <p id="modal-product-deskripsi"></p>
+                <p id="modal-product-harga" class="price"></p>
+                <div class="modal-quantity-controls">
+                    <button class="quantity-button decrease-quantity" id="modal-decrease-quantity">-</button>
+                    <span class="item-quantity" id="modal-item-quantity">1</span>
+                    <button class="quantity-button increase-quantity" id="modal-increase-quantity">+</button>
+                </div>
+
+                <button id="modal-add-to-cart-button" class="add-to-order-button">Tambah Ke Keranjang</button>
+
+                <div class="modal-back-button" id="modal-back-button">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </div>
+            </div>
+            <span class="close-button">×</span>
+        </div>
     </div>
 
     <script>
-         document.addEventListener('DOMContentLoaded', function () {
-            const addToOrderButtons = document.querySelectorAll('.add-to-order-button');
-            const cartItemsDiv = document.getElementById('cart-items');
-            const cartItemList = document.getElementById('cart-item-list');
-            const orderTotalDisplay = document.getElementById('order-total');
-            const emptyCartMessage = document.getElementById('empty-cart-message');
-            const tableNumberInput = document.getElementById('table-number');
-            const reviewOrderButton = document.getElementById('review-order-button'); // Get Review Order button
-            const orderReviewSection = document.getElementById('order-review-section'); // Get review section
-            const orderReviewItemsList = document.getElementById('order-review-items'); // Get review items list
-            const orderReviewTotalDisplay = document.getElementById('order-review-total'); // Get review total display
-            const confirmOrderButton = document.getElementById('confirm-order-button'); // Get Confirm Order button
-            const backToMenuButton = document.getElementById('back-to-menu-button');     // Get Back to Menu button
+        document.addEventListener('DOMContentLoaded', function () {
+            const detailButtons = document.querySelectorAll('.detail-button');
+            const reviewOrderButton = document.getElementById('cart-icon-link'); // Changed to cart icon link
             const orderConfirmationMessageDiv = document.getElementById('order-confirmation-message');
-            let cart = [];
+            const tableNumberInput = document.getElementById('table-number');
 
-            function updatePlaceOrderButtonState() { // Now updates Review Order button
+            // Modal elements
+            const productModal = document.getElementById('productModal');
+            const modalCloseButton = productModal.querySelector('.close-button');
+            const modalProductPict = document.getElementById('modal-product-pict');
+            const modalProductNama = document.getElementById('modal-product-nama');
+            const modalProductDeskripsi = document.getElementById('modal-product-deskripsi');
+            const modalProductHarga = document.getElementById('modal-product-harga');
+            const modalAddToCartButton = document.getElementById('modal-add-to-cart-button');
+            const modalBackButton = document.getElementById('modal-back-button');
+            const modalDecreaseQuantityButton = document.getElementById('modal-decrease-quantity');
+            const modalIncreaseQuantityButton = document.getElementById('modal-increase-quantity');
+            const modalItemQuantityDisplay = document.getElementById('modal-item-quantity');
+
+
+            let cart = JSON.parse(sessionStorage.getItem('cart') || '[]'); // Load cart from session, default to empty array
+            let selectedProduct = null;
+            let modalQuantity = 1;
+
+            function updatePlaceOrderButtonState() {
                 if (cart.length > 0 && tableNumberInput.value.trim() !== '') {
-                    reviewOrderButton.disabled = false; // Enable Review Order button
+                    reviewOrderButton.removeAttribute('disabled');
                 } else {
-                    reviewOrderButton.disabled = true;  // Disable Review Order button
+                    reviewOrderButton.setAttribute('disabled', 'disabled');
                 }
             }
 
-            addToOrderButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const productName = this.closest('.product-card').querySelector('h3').textContent; // Get product name from card
-                    const productPrice = parseFloat(this.closest('.product-card').querySelector('.price').textContent.replace('Price: $','')); // Get price from card
+            detailButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const productCard = this.closest('.product-card');
+                    selectedProduct = {
+                        id: productCard.dataset.productId,
+                        nama: productCard.dataset.productNama,
+                        deskripsi: productCard.dataset.productDeskripsi,
+                        harga: parseFloat(productCard.dataset.productHarga),
+                        pict: productCard.dataset.productPict
+                    };
+
+                    modalProductPict.src = selectedProduct.pict;
+                    modalProductNama.textContent = selectedProduct.nama;
+                    modalProductDeskripsi.textContent = selectedProduct.deskripsi;
+                    modalProductHarga.textContent = `Price: $${selectedProduct.harga.toFixed(2)}`;
+                    modalQuantity = 1;
+                    modalItemQuantityDisplay.textContent = modalQuantity;
+
+                    productModal.style.display = "block";
+                });
+            });
+
+            modalAddToCartButton.addEventListener('click', function () {
+                if (selectedProduct) {
+                    const productName = selectedProduct.nama;
+                    const productPrice = selectedProduct.harga;
+                    const productPict = selectedProduct.pict;
+                    const productDeskripsi = selectedProduct.deskripsi;
+                    const quantityToAdd = parseInt(modalItemQuantityDisplay.textContent);
 
                     const existingCartItemIndex = cart.findIndex(item => item.name === productName);
 
                     if (existingCartItemIndex > -1) {
-                        cart[existingCartItemIndex].quantity++;
+                        cart[existingCartItemIndex].quantity += quantityToAdd;
                     } else {
-                        cart.push({ name: productName, price: productPrice, quantity: 1 });
+                        cart.push({
+                            name: productName,
+                            price: productPrice,
+                            quantity: quantityToAdd,
+                            pict: productPict,
+                            deskripsi: productDeskripsi
+                        });
                     }
-
-                    updateCartDisplay();
+                    sessionStorage.setItem('cart', JSON.stringify(cart)); // Save cart to session storage
                     updatePlaceOrderButtonState();
-                });
+                    productModal.style.display = "none";
+                    selectedProduct = null;
+                    modalQuantity = 1;
+                }
             });
 
-            function updateCartDisplay() {
-                cartItemList.innerHTML = '';
-                let totalPrice = 0;
+            modalCloseButton.addEventListener('click', function () {
+                productModal.style.display = "none";
+                selectedProduct = null;
+                modalQuantity = 1;
+            });
 
-                if (cart.length === 0) {
-                    emptyCartMessage.style.display = 'block';
-                    orderTotalDisplay.style.display = 'none';
-                } else {
-                    emptyCartMessage.style.display = 'none';
-                    orderTotalDisplay.style.display = 'block';
+            modalBackButton.addEventListener('click', function () {
+                productModal.style.display = "none";
+                selectedProduct = null;
+                modalQuantity = 1;
+            });
 
-                    cart.forEach(item => {
-                        const listItem = document.createElement('li');
-                        const itemTotal = item.price * item.quantity;
-                        totalPrice += itemTotal;
 
-                        listItem.innerHTML = `
-                            ${item.name} - $${item.price.toFixed(2)}
-                            <div style="display: inline-block; margin-left: 10px;">
-                                <button class="quantity-button decrease-quantity" data-product-name="${item.name}">-</button>
-                                <span class="item-quantity" style="margin: 0 5px;">${item.quantity}</span>
-                                <button class="quantity-button increase-quantity" data-product-name="${item.name}">+</button>
-                            </div>
-                            = $${itemTotal.toFixed(2)}
-                        `;
-                        cartItemList.appendChild(listItem);
-                    });
+            window.addEventListener('click', function (event) {
+                if (event.target == productModal) {
+                    productModal.style.display = "none";
+                    selectedProduct = null;
+                    modalQuantity = 1;
                 }
+            });
 
-                orderTotalDisplay.textContent = `Total: $${totalPrice.toFixed(2)}`;
-                addQuantityButtonEventListeners();
-            }
-
-            function addQuantityButtonEventListeners() {
-                const increaseButtons = document.querySelectorAll('.increase-quantity');
-                const decreaseButtons = document.querySelectorAll('.decrease-quantity');
-
-                increaseButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const productName = this.dataset.productName;
-                        adjustQuantity(productName, 1);
-                    });
-                });
-
-                decreaseButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const productName = this.dataset.productName;
-                        adjustQuantity(productName, -1);
-                    });
-                });
-            }
-
-            function adjustQuantity(productName, change) {
-                const cartItemIndex = cart.findIndex(item => item.name === productName);
-                if (cartItemIndex > -1) {
-                    let newQuantity = cart[cartItemIndex].quantity + change;
-                    if (newQuantity < 0) newQuantity = 0;
-                    cart[cartItemIndex].quantity = newQuantity;
-                    if (cart[cartItemIndex].quantity === 0) {
-                        cart.splice(cartItemIndex, 1);
-                    }
-                    updateCartDisplay();
-                    updatePlaceOrderButtonState();
+            modalDecreaseQuantityButton.addEventListener('click', function () {
+                if (modalQuantity > 1) {
+                    modalQuantity--;
+                    modalItemQuantityDisplay.textContent = modalQuantity;
                 }
-            }
+            });
 
-            tableNumberInput.addEventListener('input', function() {
+            modalIncreaseQuantityButton.addEventListener('click', function () {
+                modalQuantity++;
+                modalItemQuantityDisplay.textContent = modalQuantity;
+            });
+
+
+            tableNumberInput.addEventListener('input', function () {
                 updatePlaceOrderButtonState();
             });
 
-            reviewOrderButton.addEventListener('click', function() { // "Review Order" button click handler
-                if (cart.length === 0 || tableNumberInput.value.trim() === '') {
-                    alert("Please add items to your cart and enter your table number.");
-                    return;
-                }
 
-                // --- Display Order Review Section ---
-                orderReviewSection.style.display = 'block'; // Show the review section
-
-                // Populate order review items list and total
-                orderReviewItemsList.innerHTML = ''; // Clear previous review items
-                let reviewTotal = 0;
-                cart.forEach(item => {
-                    const listItem = document.createElement('li');
-                    const itemTotal = item.price * item.quantity;
-                    reviewTotal += itemTotal;
-                    listItem.textContent = `${item.name} x ${item.quantity} - $${itemTotal.toFixed(2)}`;
-                    orderReviewItemsList.appendChild(listItem);
-                });
-                orderReviewTotalDisplay.textContent = `Total: $${reviewTotal.toFixed(2)}`;
-
-                // Hide the cart display and "Review Order" button itself (optional, for cleaner UI in review)
-                cartItemsDiv.style.display = 'none';
-                reviewOrderButton.style.display = 'none';
-            });
-
-            confirmOrderButton.addEventListener('click', function() { // "Confirm Order" button click handler
-                const tableNumber = tableNumberInput.value.trim();
-                const orderData = {
-                    table_number: tableNumber,
-                    cart_items: cart
-                };
-
-                fetch('/orders', { // ... fetch request - same as before for "Place Order" ...
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify(orderData)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    orderConfirmationMessageDiv.textContent = data.message + (data.order_id ? ` Order ID: ${data.order_id}` : '');
-                    orderConfirmationMessageDiv.style.display = 'block';
-
-                    cart = [];
-                    updateCartDisplay();
-                    updatePlaceOrderButtonState();
-                    tableNumberInput.value = '';
-
-                    // Hide review section and confirmation after order
-                    orderReviewSection.style.display = 'none';
-                    setTimeout(function() {
-                        orderConfirmationMessageDiv.style.display = 'none';
-                    }, 5000);
-                })
-                .catch(error => {
-                    console.error('Error placing order:', error);
-                    alert('Failed to place order. Please try again.');
-                });
-            });
-
-            backToMenuButton.addEventListener('click', function() { // "Back to Menu" button click handler
-                // Hide review section, show cart and "Review Order" button again
-                orderReviewSection.style.display = 'none';
-                cartItemsDiv.style.display = 'block';
-                reviewOrderButton.style.display = 'inline-block'; // Or 'block', depending on your layout
-            });
-
-
-            updateCartDisplay(); // Initial cart display
             updatePlaceOrderButtonState(); // Initial button state
         });
     </script>
