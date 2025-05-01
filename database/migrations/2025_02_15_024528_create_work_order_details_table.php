@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('work_order_id')->constrained('work_orders'); // work_orders_id (FK) referencing work_orders table
             $table->foreignId('product_id')->constrained('products'); // product_id (FK) referencing products table
             $table->integer('qty'); // Quantity
-            $table->decimal('harga', 10, 2); // Price per item, DECIMAL
-            $table->decimal('sub_total', 10, 2); // Subtotal, DECIMAL
+            $table->integer('harga'); // Price per item, INTEGER
+            $table->integer('sub_total'); // Subtotal, INTEGER
             $table->timestamps(); // created_at and updated_at
         });
     }

@@ -65,8 +65,8 @@
 
         .cart-item {
             display: grid;
-            grid-template-columns: auto 1fr auto auto auto auto; /* Checkbox, Image/Details, Price, Quantity Controls, Remove */
-            gap: 15px;
+            grid-template-columns: auto auto 1fr auto auto auto; /* Checkbox, Image, Details, Price, Quantity Controls, Remove */
+            gap: 15px; /* Reduced gap slightly for better alignment of text */
             padding: 15px 0;
             border-bottom: 1px solid #eee;
             align-items: center;
@@ -99,16 +99,19 @@
 
         .cart-item-details {
             justify-self: start;
+            padding-right: 10px; /* Added right padding for spacing before price */
         }
 
         .cart-item-name {
             font-weight: bold;
             margin-bottom: 5px;
+            margin-top: 0; /* Ensure no extra top margin */
         }
 
         .cart-item-category {
             color: #777;
             font-size: 0.9em;
+            margin-top: 0; /* Ensure no extra top margin */
         }
 
         .cart-item-price {
@@ -260,7 +263,6 @@
                 cartItemList.innerHTML = '';
                 let totalPrice = 0;
                 let totalItems = 0;
-                let hasCheckedItem = false; // To track if any item is checked
 
                 if (cart.length === 0) {
                     emptyCartMessage.style.display = 'block';
@@ -279,13 +281,11 @@
                         totalPrice += itemTotal;
                         totalItems += item.quantity;
 
+                        const imageUrl = (item.pict && item.pict !== '') ? item.pict : 'https://placehold.co/250x250?text=No+Image';
                         listItem.innerHTML = `
                             <input type="checkbox" class="cart-item-checkbox" data-product-index="${index}">
                             <div class="cart-item-image-container">
-                                <img src="${item.pict}" alt="${item.name}" class="cart-item-image" onerror="this.src='{{ asset('fallback-product-image.png') }}'; this.alt='Fallback Image';">
-                                <noscript>
-                                    <img src="${item.pict}" alt="${item.name}" class="cart-item-image" onerror="this.src='{{ asset('fallback-product-image.png') }}'; this.alt='Fallback Image';">
-                                </noscript>
+                                <img src="${imageUrl}" alt="${item.name}" class="cart-item-image">
                             </div>
                             <div class="cart-item-details">
                                 <h4 class="cart-item-name">${item.name}</h4>
@@ -391,9 +391,6 @@
                     checkbox.checked = selectAllCheckbox.checked;
                 });
             });
-
-
-            
 
 
             updateCartDisplay(); // Initial cart display
