@@ -247,3 +247,512 @@ h1 {
     text-align: center;
     font-weight: bold;
 }
+/* General Body Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f4e3; /* Light cafe background */
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5a3e2b; /* Dark brown for headings */
+            margin-bottom: 30px;
+            font-family: 'Georgia', serif; /* More traditional font */
+        }
+
+        /* Table Number Input Styling */
+        div {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #5a3e2b;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Sort Button Styling */
+        #sortButton {
+            display: block; /* Make it a block element */
+            margin: 0 auto 20px; /* Center the button and add bottom margin */
+            padding: 10px 15px;
+            background-color: #7b5c45; /* Cafe-like brown */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #sortButton:hover {
+            background-color: #634c3b;
+        }
+
+        /* Product Grid Styling */
+        #product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px; /* Increased gap */
+            margin-top: 20px;
+        }
+
+        .product-card {
+            border: 1px solid #e0d9c6; /* Lighter border */
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            background-color: #ffffff; /* White background for cards */
+            transition: transform 0.3s ease; /* Add hover effect */
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px); /* Lift card on hover */
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 150px; /* Fixed height for images */
+            object-fit: cover; /* Crop image to fit */
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .product-card h3 {
+            margin-bottom: 5px;
+            color: #5a3e2b;
+        }
+
+        .product-card p {
+            color: #666; /* Slightly darker gray */
+            margin-bottom: 10px;
+            font-size: 0.9em; /* Smaller font for description */
+        }
+
+        .product-card .price {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #7b5c45; /* Matching the sort button */
+            font-size: 1.1em;
+        }
+
+        .product-card .detail-button {
+            padding: 10px 15px; /* Increased padding */
+            background-color: #a0836e; /* Softer brown */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-card .detail-button:hover {
+            background-color: #8b715f;
+        }
+
+        /* Modal Styles - Updated to match design */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100; /* Higher z-index */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            backdrop-filter: blur(5px); /* Add blur effect */
+            -webkit-backdrop-filter: blur(5px); /* For Safari */
+            display: flex; /* Use flexbox for centering */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+        }
+
+        .modal-content {
+            background-color: #ffffff; /* White background */
+            margin: 5% auto; /* Adjusted margin */
+            padding: 30px; /* Increased padding */
+            border: 1px solid #888;
+            width: 80%; /* Wider modal */
+            max-width: 800px; /* Max width */
+            border-radius: 10px; /* More rounded corners */
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr; /* Adjust column ratio */
+            gap: 30px; /* Increased gap */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .modal-product-image-container {
+            text-align: center;
+        }
+
+        .modal-product-image {
+            max-width: 100%;
+            max-height: 350px; /* Increased max height */
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            object-fit: contain;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .modal-product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee; /* Add a separator */
+            padding-bottom: 10px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #5a3e2b;
+        }
+
+        .modal-cart-icon {
+            font-size: 28px; /* Larger icon */
+            color: #7b5c45;
+        }
+
+        .modal-product-details p {
+            margin-bottom: 15px;
+            color: #555;
+            line-height: 1.5; /* Improved readability */
+        }
+
+        #modal-product-harga {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #7b5c45;
+            margin-bottom: 20px;
+        }
+
+        .modal-quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px; /* Increased margin */
+            justify-content: center; /* Center controls */
+        }
+
+        .quantity-button {
+            padding: 10px 15px; /* Increased padding */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #eee;
+            cursor: pointer;
+            font-size: 18px; /* Larger font */
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-button:hover {
+            background-color: #ddd;
+        }
+
+        .item-quantity {
+            margin: 0 15px; /* Increased margin */
+            font-size: 20px; /* Larger font */
+            font-weight: bold;
+            color: #5a3e2b;
+        }
+
+        #modal-add-to-cart-button {
+            padding: 12px 15px; /* Increased padding */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px; /* Larger font */
+            width: 100%;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        #modal-add-to-cart-button:hover {
+            background-color: #45a049;
+        }
+
+        .modal-back-button {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+            color: #5a3e2b;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .modal-back-button:hover {
+            color: #7b5c45;
+        }
+
+        .modal-back-button i {
+            margin-right: 8px; /* Increased margin */
+            font-size: 20px; /* Larger icon */
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 0; /* Remove padding */
+            transition: color 0.3s ease;
+            line-height: 1; /* Ensure consistent vertical alignment */
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Shopping Cart Icon Styling */
+        #cart-icon-container {
+            position: fixed; /* Fixed to viewport */
+            top: 20px;
+            right: 20px;
+            z-index: 1000; /* Ensure it's on top of other elements */
+        }
+
+        #cart-icon-link {
+            display: inline-block;
+            padding: 15px; /* Larger padding */
+            background-color: #a0836e; /* Matching detail button */
+            border-radius: 50%; /* Circular shape */
+            color: white; /* White icon */
+            text-decoration: none;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+            opacity: 0.9; /* Slightly transparent initially */
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        #cart-icon-link:hover {
+            background-color: #8b715f; /* Slightly darker on hover */
+            opacity: 1; /* Fully opaque on hover */
+        }
+
+        #cart-icon-link[disabled] {
+            opacity: 0.5; /* More transparent when disabled */
+            cursor: default; /* No pointer cursor when disabled */
+            pointer-events: none; /* Prevent clicks when disabled */
+            background-color: #ccc; /* Gray out when disabled */
+        }
+
+        #cart-icon-link i {
+            font-size: 28px; /* Larger size of the cart icon */
+        }
+
+        /* Order Confirmation Message Styling */
+        #order-confirmation-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #d4edda; /* Green border */
+            background-color: #d4edda; /* Light green background */
+            color: #155724; /* Dark green text */
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Mobile Specific Styles for Modal */
+        @media (max-width: 768px) {
+            .modal {
+                align-items: flex-start; /* Align to the top on mobile */
+                padding-top: 20px; /* Add some padding from the top */
+            }
+
+            .modal-content {
+                grid-template-columns: 1fr; /* Stack elements vertically on mobile */
+                margin-top: 20px; /* Adjust top margin */
+                margin-bottom: 20px; /* Adjust bottom margin */
+                width: 90%; /* Make modal wider on smaller screens */
+                padding: 20px; /* Adjust padding */
+            }
+
+            .modal-product-image-container {
+                margin-bottom: 20px; /* Add space between image and details */
+            }
+
+            .modal-product-image {
+                max-height: 250px; /* Reduce image height on mobile */
+            }
+
+            .modal-header {
+                flex-direction: column; /* Stack header elements */
+                align-items: center; /* Center header elements */
+                text-align: center;
+            }
+
+            .modal-header h2 {
+                margin-bottom: 10px; /* Add space below title */
+            }
+
+            .modal-quantity-controls {
+                justify-content: center; /* Keep centered on mobile */
+            }
+
+            #modal-add-to-cart-button {
+                font-size: 16px; /* Adjust button font size */
+            }
+        }
+/* Basic Table Styling for Staff Pages */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners apply to children */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #5a3e2b; /* Matching heading color */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Zebra striping */
+}
+
+tr:hover {
+    background-color: #e9e9e9; /* Hover effect */
+}
+
+td a {
+    color: #7b5c45; /* Matching button color */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+/* Basic Button Styling */
+button {
+    padding: 10px 15px;
+    background-color: #7b5c45; /* Cafe-like brown */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #634c3b;
+}
+
+/* Basic Link Styling */
+a {
+    color: #7b5c45; /* Cafe-like brown */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #634c3b;
+    text-decoration: underline;
+}
+
+/* Styling for primary action buttons/links */
+.btn-primary {
+    background-color: #007bff; /* Blue */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for danger action buttons/links */
+.btn-danger {
+    background-color: #dc3545; /* Red */
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Styling for success messages */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+/* Basic Form Styling */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #5a3e2b; /* Matching heading color */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    margin-bottom: 15px;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-bottom: 15px;
+}
+/* Form Container Styling */
+.form-container {
+    max-width: 600px;
+    margin: 20px auto; /* Center the container */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

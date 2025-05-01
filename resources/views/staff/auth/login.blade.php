@@ -2,11 +2,11 @@
 
     @section('content') {{-- Start content section --}}
 
-        <div style="max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; margin-top: 50px;">
+        <div class="form-container" style="max-width: 400px; margin-top: 50px;"> {{-- Added form-container class, kept max-width and margin-top --}}
             <h1>Staff Login</h1>
 
             @if ($errors->any()) {{-- Display validation errors if any --}}
-                <div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+                <div class="alert alert-danger"> {{-- Added alert-danger class --}}
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -18,25 +18,25 @@
             <form method="POST" action="{{ route('login') }}"> {{-- Login form --}}
                 @csrf {{-- CSRF token --}}
 
-                <div style="margin-bottom: 15px;">
-                    <label for="email" style="display: block; margin-bottom: 5px;">Email:</label>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <div> {{-- Removed inline styles --}}
+                    <label for="email">Email:</label> {{-- Removed inline styles --}}
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus> {{-- Removed inline styles --}}
                 </div>
 
-                <div style="margin-bottom: 15px;">
-                    <label for="password" style="display: block; margin-bottom: 5px;">Password:</label>
-                    <input id="password" type="password" name="password" required autocomplete="current-password" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <div> {{-- Removed inline styles --}}
+                    <label for="password">Password:</label> {{-- Removed inline styles --}}
+                    <input id="password" type="password" name="password" required autocomplete="current-password"> {{-- Removed inline styles --}}
                 </div>
 
-                <div style="margin-bottom: 15px;">
-                    <div style="display: flex; align-items: center;">
+                <div style="margin-bottom: 15px;"> {{-- Kept margin-bottom for spacing --}}
+                    <div style="display: flex; align-items: center;"> {{-- Kept inline styles for layout --}}
                         <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="remember" style="margin-left: 5px;">Remember Me</label>
+                        <label class="form-check-label" for="remember" style="margin-left: 5px;">Remember Me</label> {{-- Kept margin-left for spacing --}}
                     </div>
                 </div>
 
-                <div>
-                    <button type="submit" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                <div> {{-- Removed inline styles --}}
+                    <button type="submit" class="btn-primary"> {{-- Added btn-primary class, removed inline styles --}}
                         Login
                     </button>
                 </div>

@@ -4,9 +4,9 @@
 
     <h1>Edit Staff User</h1>
 
-    <div style="max-width: 600px; margin-top: 20px;">
+    <div class="form-container"> {{-- Added class for styling --}}
         @if ($errors->any())
-            <div style="background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+            <div class="alert alert-danger"> {{-- Added alert-danger class --}}
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -19,28 +19,28 @@
             @csrf
             @method('PATCH') {{-- Method spoofing for PATCH request --}}
 
-            <div style="margin-bottom: 15px;">
-                <label for="name" style="display: block; margin-bottom: 5px;">Name</label>
-                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $staff->name) }}" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+            <div> {{-- Removed inline styles --}}
+                <label for="name">Name</label> {{-- Removed inline styles --}}
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $staff->name) }}" required> {{-- Removed inline styles --}}
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label for="email" style="display: block; margin-bottom: 5px;">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $staff->email) }}" required style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+            <div> {{-- Removed inline styles --}}
+                <label for="email">Email</label> {{-- Removed inline styles --}}
+                <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $staff->email) }}" required> {{-- Removed inline styles --}}
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label for="password" style="display: block; margin-bottom: 5px;">New Password (leave blank to keep current)</label>
-                <input type="password" class="form-control" id="password" name="password" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+            <div> {{-- Removed inline styles --}}
+                <label for="password">New Password (leave blank to keep current)</label> {{-- Removed inline styles --}}
+                <input type="password" class="form-control" id="password" name="password"> {{-- Removed inline styles --}}
             </div>
 
-            <div style="margin-bottom: 15px;">
-                <label for="password_confirmation" style="display: block; margin-bottom: 5px;">Confirm New Password</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+            <div> {{-- Removed inline styles --}}
+                <label for="password_confirmation">Confirm New Password</label> {{-- Removed inline styles --}}
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"> {{-- Removed inline styles --}}
             </div>
 
-            <button type="submit" class="btn btn-primary" style="padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Update Staff User</button>
-            <a href="{{ route('staff.users.index') }}" style="margin-left: 10px; text-decoration: none;">Cancel</a>
+            <button type="submit" class="btn btn-primary">Update Staff User</button> {{-- Added btn-primary class, removed inline styles --}}
+            <a href="{{ route('staff.users.index') }}" style="margin-left: 10px;">Cancel</a> {{-- Kept margin-left for spacing --}}
         </form>
     </div>
 

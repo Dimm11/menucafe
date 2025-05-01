@@ -177,7 +177,7 @@
             <div class="form-group">
                 <label for="payment_method">Metode Pembayaran</label>
                 <select id="payment_method" name="payment_method">
-                    <option value="" selected disabled>-- Pilih Metode Pembayaran</option>
+                    <option value="" selected disabled>-- Pilih Metode Pembayaran --s</option>
                     <option value="QRIS/Tunai">QRIS</option>
                     <option value="Tunai">Tunai</option>
                 </select>
@@ -200,13 +200,14 @@
             const paymentMethodSelect = document.getElementById('payment_method');
             const qrisImage = document.getElementById('qris-image');
 
-            let cart = JSON.parse(sessionStorage.getItem('cart') || '[]'); // Retrieve cart from session
+            // Retrieve selected items from session storage
+            let selectedCartItems = JSON.parse(sessionStorage.getItem('selectedCartItems') || '[]');
 
             function updateCheckoutSummary() {
                 let totalPrice = 0;
                 let totalItems = 0;
 
-                cart.forEach(item => {
+                selectedCartItems.forEach(item => {
                     const itemTotal = item.price * item.quantity;
                     totalPrice += itemTotal;
                     totalItems += item.quantity;
@@ -247,9 +248,9 @@
                     return;
                 }
 
-                if (cart.length > 0) {
+                if (selectedCartItems.length > 0) {
                     // Prepare data to send to backend
-                    const cartItemsForBackend = cart.map(item => ({
+                    const cartItemsForBackend = selectedCartItems.map(item => ({
                         name: item.name,
                         price: item.price,
                         quantity: item.quantity,
@@ -280,7 +281,12 @@
                     })
                     .then(data => {
                         alert("Pesanan berhasil dibuat! Order ID: " + data.order_id);
-                        sessionStorage.removeItem('cart'); // Clear cart after successful checkout
+                        // Clear selected items from session storage after successful checkout
+                        sessionStorage.removeItem('selectedCartItems');
+                        // Optionally, you might also want to update the main cart in sessionStorage
+                        // to remove the items that were just checked out. This depends on your desired flow.
+                        // For now, we only clear selected items.
+
                         window.location.href = '/products'; // Redirect to products page after successful checkout (or any other page you want)
                     })
                     .catch(error => {
@@ -288,7 +294,7 @@
                         alert("Terjadi kesalahan saat memproses pesanan: " + error.message);
                     });
                 } else {
-                    alert("Keranjang belanja kosong.");
+                    alert("Tidak ada item yang dipilih untuk checkout.");
                 }
             });
 

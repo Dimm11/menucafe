@@ -699,6 +699,22 @@
             }
         }
 
+        // --- Event Listener for Checkout Button ---
+        processCheckoutButton.addEventListener('click', function(event) {
+            // Prevent default link behavior initially
+            // event.preventDefault(); // Keep default behavior to navigate
+
+            // Filter selected items
+            const selectedItems = cart.filter(item => item.selected);
+
+            // Store selected items in sessionStorage
+            sessionStorage.setItem('selectedCartItems', JSON.stringify(selectedItems));
+
+            // Allow the default link behavior to proceed to the checkout page
+            // The checkout page will read 'selectedCartItems' from sessionStorage
+        });
+
+
         // --- Initial Setup ---
         selectAllCheckbox.addEventListener('change', handleSelectAllChange);
         updateCartDisplay(); // Initial draw and listener attachment

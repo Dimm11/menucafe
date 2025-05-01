@@ -398,7 +398,7 @@
         <input type="text" id="table-number" name="table_number" placeholder="Enter table number">
     </div>
 
-    <button id="sortButton">Sort by Price (Ascending)</button>
+    <button id="sortButton">Urutkan Harga (Tertinggi)</button>
 
     <div id="product-grid" data-products='@json($products)'>
         {{-- Product Grid Container (populated by JS) --}}
@@ -545,7 +545,7 @@
             sortButton.addEventListener('click', function () {
                 products = bubbleSort(products, sortedAscending);
                 sortedAscending = !sortedAscending;
-                sortButton.textContent = `Sort by Price (${sortedAscending ? 'Ascending' : 'Descending'})`;
+                sortButton.textContent = `Urutkan Harga (${sortedAscending ? 'Tertinggi' : 'Terendah'})`;
                 renderProducts(products);
             });
 
