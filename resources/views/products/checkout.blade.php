@@ -178,7 +178,7 @@
                 <label for="payment_method">Metode Pembayaran</label>
                 <select id="payment_method" name="payment_method">
                     <option value="" selected disabled>-- Pilih Metode Pembayaran --s</option>
-                    <option value="QRIS/Tunai">QRIS</option>
+                    <option value="QRIS">QRIS</option>
                     <option value="Tunai">Tunai</option>
                 </select>
                 <img id="qris-image" src="{{ asset('assets/QRIS.jpg') }}" alt="QRIS Code">
@@ -223,7 +223,7 @@
 
             // Function to show/hide QRIS image based on selection
             function handlePaymentMethodChange() {
-                if (paymentMethodSelect.value === 'QRIS/Tunai') {
+                if (paymentMethodSelect.value === 'QRIS') {
                     qrisImage.style.display = 'block';
                 } else {
                     qrisImage.style.display = 'none';
@@ -258,7 +258,7 @@
 
                     const orderData = {
                         table_number: tableNumber,
-                        payment_method: paymentMethod, // Include payment method if needed
+                        metode_pembayaran: paymentMethod, // Include payment method if needed
                         cart_items: cartItemsForBackend,
                     };
 

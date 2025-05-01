@@ -12,10 +12,9 @@ class WorkOrder extends Model
 
     protected $fillable = [
         'nama',
-        'no_telp',
         'no_meja',
         'status',
-        'work_numbers',
+        'metode_pembayaran',
     ];
 
     /**

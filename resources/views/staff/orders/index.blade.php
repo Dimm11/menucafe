@@ -10,6 +10,7 @@
                 <th>Order ID</th>
                 <th>Table No.</th>
                 <th>Status</th>
+                <th>Metode Pembayaran</th>
                 <th>Created At</th>
                 <th>Total</th>
                 <th>Actions</th>
@@ -21,6 +22,7 @@
                     <td>{{ $order->id }}</td>
                     <td>{{ $order->no_meja }}</td>
                     <td>{{ $order->status }}</td>
+                    <td>{{ $order->metode_pembayaran }}</td>
                     <td>{{ $order->created_at }}</td>
                     <td>
                         {{-- Calculate order total here (you might want to move this logic to the model later) --}}
@@ -38,7 +40,7 @@
             @endforeach
             @if ($orders->isEmpty()) {{-- Display message if no orders --}}
                 <tr>
-                    <td colspan="6" style="text-align: center; padding: 10px;">No orders yet.</td>
+                    <td colspan="7" style="text-align: center; padding: 10px;">No orders yet.</td>
                 </tr>
             @endif
         </tbody>

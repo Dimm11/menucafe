@@ -16,8 +16,7 @@
         <p><strong>Status:</strong> {{ $order->status }}</p>
         <p><strong>Created At:</strong> {{ $order->created_at }}</p>
         <p><strong>Order Taken By:</strong> {{ $order->nama }}</p> {{-- Assuming 'nama' in work_orders can be staff name if needed --}}
-        <p><strong>Work Numbers:</strong> {{ $order->work_numbers }}</p>
-        <p><strong>Telephone Number:</strong> {{ $order->no_telp }}</p>
+        <p><strong>Metode Pembayaran:</strong> {{ $order->metode_pembayaran }}</p>
     </div>
 
     <h2>Order Items</h2>

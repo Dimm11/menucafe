@@ -18,6 +18,7 @@ class WorkOrderController extends Controller
         // 1. Validate incoming data
         $validatedData = $request->validate([
             'table_number' => 'required|string|max:20', // Example validation for table number
+            'metode_pembayaran' => 'required|in:QRIS,Tunai', // Validate payment method
             'cart_items' => 'required|array',             // Cart items must be an array
             'cart_items.*.name' => 'required|string',    // Each cart item must have a name
             'cart_items.*.price' => 'required|numeric|min:0', // Each item must have a valid price
@@ -29,6 +30,7 @@ class WorkOrderController extends Controller
         $workOrder->nama = 'Cafe Order - Table ' . $validatedData['table_number']; // You can customize order name
         $workOrder->no_meja = $validatedData['table_number'];
         $workOrder->status = 'pending'; // Default status for new orders (you can define statuses in migration or enum)
+        $workOrder->metode_pembayaran = $validatedData['metode_pembayaran']; // Save the payment method
         // You might want to set other WorkOrder fields (nama, no_telp, work_numbers) based on your needs
         $workOrder->save(); // Save the WorkOrder to get an ID
 
