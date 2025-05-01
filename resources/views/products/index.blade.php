@@ -142,6 +142,9 @@
             background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
             backdrop-filter: blur(5px); /* Add blur effect */
             -webkit-backdrop-filter: blur(5px); /* For Safari */
+            display: flex; /* Use flexbox for centering */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
         }
 
         .modal-content {
@@ -342,6 +345,48 @@
             text-align: center;
             font-weight: bold;
         }
+
+        /* Mobile Specific Styles for Modal */
+        @media (max-width: 768px) {
+            .modal {
+                align-items: flex-start; /* Align to the top on mobile */
+                padding-top: 20px; /* Add some padding from the top */
+            }
+
+            .modal-content {
+                grid-template-columns: 1fr; /* Stack elements vertically on mobile */
+                margin-top: 20px; /* Adjust top margin */
+                margin-bottom: 20px; /* Adjust bottom margin */
+                width: 90%; /* Make modal wider on smaller screens */
+                padding: 20px; /* Adjust padding */
+            }
+
+            .modal-product-image-container {
+                margin-bottom: 20px; /* Add space between image and details */
+            }
+
+            .modal-product-image {
+                max-height: 250px; /* Reduce image height on mobile */
+            }
+
+            .modal-header {
+                flex-direction: column; /* Stack header elements */
+                align-items: center; /* Center header elements */
+                text-align: center;
+            }
+
+            .modal-header h2 {
+                margin-bottom: 10px; /* Add space below title */
+            }
+
+            .modal-quantity-controls {
+                justify-content: center; /* Keep centered on mobile */
+            }
+
+            #modal-add-to-cart-button {
+                font-size: 16px; /* Adjust button font size */
+            }
+        }
     </style>
 </head>
 
@@ -372,7 +417,6 @@
     <!-- The Modal -->
     <div id="productModal" class="modal">
         <div class="modal-content">
-            <span class="close-button">×</span>
             <div class="modal-product-image-container">
                 <img id="modal-product-pict" src="" alt="Product Picture" class="modal-product-image">
             </div>
@@ -399,12 +443,17 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+                document.addEventListener('DOMContentLoaded', function () {
             const reviewOrderButton = document.getElementById('cart-icon-link');
             const orderConfirmationMessageDiv = document.getElementById('order-confirmation-message');
             const tableNumberInput = document.getElementById('table-number');
             const sortButton = document.getElementById('sortButton');
             const productGrid = document.getElementById('product-grid');
+
+            const productModal = document.getElementById('productModal'); // Get modal reference early
+
+            // Sembunyikan modal saat DOMContentLoaded
+            productModal.style.display = "none";
 
             let products = JSON.parse(productGrid.dataset.products);
             let sortedAscending = true;
@@ -525,14 +574,14 @@
                 modalQuantity = 1;
                 modalItemQuantityDisplay.textContent = modalQuantity;
 
-                productModal.style.display = "block";
+                productModal.style.display = "flex"; // Use flex to enable centering
             }
 
             // Initial rendering
             renderProducts(products);
 
             // Modal elements
-            const productModal = document.getElementById('productModal');
+            // const productModal = document.getElementById('productModal'); // Moved up
             const modalCloseButton = productModal.querySelector('.close-button');
             const modalProductPict = document.getElementById('modal-product-pict');
             const modalProductNama = document.getElementById('modal-product-nama');

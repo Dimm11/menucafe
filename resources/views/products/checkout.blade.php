@@ -8,37 +8,49 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
-        /* Basic Styling for Checkout Page - Adjust as needed to match image */
+        /* Checkout Page Styles - Based on Index Page */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f4e3; /* Light cafe background */
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #5a3e2b; /* Dark brown for headings */
+            margin-bottom: 30px;
+            font-family: 'Georgia', serif; /* More traditional font */
         }
 
         .checkout-container {
             max-width: 600px;
             margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff; /* White background */
+            padding: 30px; /* Increased padding */
+            border-radius: 10px; /* More rounded corners */
+            box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
         }
 
         .checkout-header {
             text-align: center;
             margin-bottom: 20px;
+            border-bottom: 1px solid #eee; /* Add a separator */
+            padding-bottom: 10px;
         }
 
         .checkout-summary {
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e0d9c6; /* Lighter border */
         }
 
         .summary-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
+            margin-bottom: 10px; /* Increased margin */
+            color: #555;
         }
 
         .summary-total {
@@ -46,15 +58,17 @@
             justify-content: space-between;
             font-weight: bold;
             font-size: 18px;
-            margin-top: 10px;
+            margin-top: 20px; /* Increased margin */
             padding-top: 10px;
             border-top: 1px solid #ddd;
+            color: #7b5c45; /* Matching the sort button */
         }
 
         .checkout-form label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
+            color: #5a3e2b; /* Dark brown */
         }
 
         .checkout-form input[type="number"],
@@ -71,36 +85,46 @@
             background-repeat: no-repeat;
             background-position-x: 95%;
             background-position-y: 5px;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .checkout-button {
             display: block;
             width: 100%;
-            padding: 12px;
-            background-color: #28a745;
+            padding: 12px 15px; /* Increased padding */
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            font-size: 18px; /* Larger font */
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
         }
 
         .checkout-button:hover {
-            background-color: #218838;
+            background-color: #45a049;
         }
 
         .back-to-cart-button {
             display: inline-flex;
             align-items: center;
             cursor: pointer;
-            color: #007bff;
+            color: #5a3e2b; /* Dark brown */
             text-decoration: none;
-            margin-top: 10px;
+            margin-top: 20px; /* Increased margin */
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .back-to-cart-button:hover {
+            color: #7b5c45; /* Cafe brown on hover */
         }
 
         .back-to-cart-button i {
-            margin-right: 5px;
+            margin-right: 8px; /* Increased margin */
+            font-size: 20px; /* Larger icon */
         }
         /* Style for number input arrows to be removed in some browsers */
         input[type="number"]::-webkit-inner-spin-button,
@@ -111,6 +135,16 @@
 
         input[type="number"] {
             -moz-appearance: textfield; /* Firefox */
+        }
+
+        #qris-image {
+            display: none; /* Hidden by default */
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border: 1px solid #e0d9c6;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -143,9 +177,11 @@
             <div class="form-group">
                 <label for="payment_method">Metode Pembayaran</label>
                 <select id="payment_method" name="payment_method">
-                    <option value="QRIS/Tunai">QRIS / Tunai</option>
-                    <option value="Debit/Kredit">Debit / Kredit (Belum Tersedia)</option>
+                    <option value="" selected disabled>-- Pilih Metode Pembayaran</option>
+                    <option value="QRIS/Tunai">QRIS</option>
+                    <option value="Tunai">Tunai</option>
                 </select>
+                <img id="qris-image" src="{{ asset('assets/QRIS.jpg') }}" alt="QRIS Code">
             </div>
 
             <button type="submit" class="checkout-button">Checkout</button>
@@ -161,6 +197,8 @@
             const checkoutSummaryItemsCount = document.getElementById('checkout-summary-items-count');
             const checkoutSummaryTotalPriceDisplay = document.getElementById('checkout-summary-total-price');
             const checkoutForm = document.getElementById('checkout-form');
+            const paymentMethodSelect = document.getElementById('payment_method');
+            const qrisImage = document.getElementById('qris-image');
 
             let cart = JSON.parse(sessionStorage.getItem('cart') || '[]'); // Retrieve cart from session
 
@@ -181,6 +219,22 @@
             function formatPrice(price) {
                 return price.toFixed(0).replace(/\d(?=(\d{3})+(?!\d))/g, '$&.'); // Format to Indonesian Rupiah style
             }
+
+            // Function to show/hide QRIS image based on selection
+            function handlePaymentMethodChange() {
+                if (paymentMethodSelect.value === 'QRIS/Tunai') {
+                    qrisImage.style.display = 'block';
+                } else {
+                    qrisImage.style.display = 'none';
+                }
+            }
+
+            // Initial check on page load
+            handlePaymentMethodChange();
+
+            // Add event listener for changes
+            paymentMethodSelect.addEventListener('change', handlePaymentMethodChange);
+
 
             checkoutForm.addEventListener('submit', function (event) {
                 event.preventDefault(); // Prevent default form submission
