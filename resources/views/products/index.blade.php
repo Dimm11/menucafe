@@ -355,6 +355,25 @@
             font-size: 28px; /* Larger size of the cart icon */
         }
 
+        /* Cart Count Styling */
+        #cart-count {
+            position: absolute;
+            top: -5px; /* Adjust position to top-left */
+            right: -5px; /* Adjust position to top-left */
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px; /* Fixed width for consistent aspect ratio */
+            height: 20px; /* Fixed height for consistent aspect ratio */
+            display: flex; /* Use flexbox to center content */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+
         /* Order Confirmation Message Styling */
         #order-confirmation-message {
             display: none;
@@ -434,6 +453,7 @@
     <div id="cart-icon-container">
         <a href="{{ route('cart.index') }}" id="cart-icon-link" disabled>
             <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count">0</span>
         </a>
     </div>
 
@@ -689,6 +709,12 @@
 
 
             modalAddToCartButton.addEventListener('click', function () {
+                const tableNumber = tableNumberInput.value.trim();
+                if (tableNumber === '') {
+                    alert('Mohon masukkan nomor meja sebelum menambahkan ke keranjang.');
+                    return; // Stop the function if table number is empty
+                }
+
                 if (selectedProduct) {
                     const productName = selectedProduct.nama;
                     const productPrice = selectedProduct.harga;
@@ -715,6 +741,7 @@
                     }
                     sessionStorage.setItem('cart', JSON.stringify(cart)); // Save cart to session storage
                     updatePlaceOrderButtonState();
+                    updateCartCountDisplay(); // Update cart count after adding item
                     productModal.style.display = "none";
                     selectedProduct = null;
                     modalQuantity = 1;
@@ -754,7 +781,16 @@
             });
 
 
+            const cartCountSpan = document.getElementById('cart-count');
+
+            function updateCartCountDisplay() {
+                const cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountSpan.textContent = totalItems;
+            }
+
             updatePlaceOrderButtonState(); // Initial button state
+            updateCartCountDisplay(); // Initial cart count display
         });
     </script>
 
