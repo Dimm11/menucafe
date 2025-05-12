@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cafe Menu</title>
+    <title>Menu Cafe</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Font Awesome for icons -->
+    <!-- Font Awesome untuk ikon -->
     <style>
         /* General Body Styling */
         body {
@@ -128,6 +128,28 @@
         .product-card .detail-button:hover {
             background-color: #8b715f;
         }
+
+        /* Category Section Styling */
+        .category-section {
+            margin-bottom: 40px; /* Space between categories */
+            grid-column: 1 / -1; /* Span across all columns in the grid */
+        }
+
+        .category-section h2 {
+            text-align: center;
+            color: #5a3e2b; /* Dark brown for headings */
+            margin-bottom: 20px;
+            font-family: 'Georgia', serif;
+            border-bottom: 2px solid #a0836e; /* Underline for category title */
+            padding-bottom: 10px;
+        }
+
+        .category-section .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px; /* Match the product grid gap */
+        }
+
 
         /* Modal Styles - Updated to match design */
         .modal {
@@ -379,6 +401,11 @@
                 margin-bottom: 10px; /* Add space below title */
             }
 
+            .category-section .product-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Two columns on mobile */
+                gap: 15px; /* Adjust gap for smaller cards */
+            }
+
             .modal-quantity-controls {
                 justify-content: center; /* Keep centered on mobile */
             }
@@ -391,11 +418,11 @@
 </head>
 
 <body>
-    <h1>Our Menu</h1>
+    <h1>Menu Kami</h1>
 
     <div>
-        <label for="table-number">Table Number:</label>
-        <input type="text" id="table-number" name="table_number" placeholder="Enter table number">
+        <label for="table-number">Nomor Meja:</label>
+        <input type="text" id="table-number" name="table_number" placeholder="Masukkan nomor meja">
     </div>
 
     <button id="sortButton">Urutkan Harga (Tertinggi)</button>
@@ -418,12 +445,12 @@
     <div id="productModal" class="modal">
         <div class="modal-content">
             <div class="modal-product-image-container">
-                <img id="modal-product-pict" src="" alt="Product Picture" class="modal-product-image">
+                <img id="modal-product-pict" src="" alt="Gambar Produk" class="modal-product-image">
             </div>
             <div class="modal-product-details">
                 <div class="modal-header">
                     <h2 id="modal-product-nama"></h2>
-                    <i class="fas fa-coffee modal-cart-icon"></i> <!-- Using a coffee icon for variety -->
+                    <i class="fas fa-coffee modal-cart-icon"></i> <!-- Menggunakan ikon kopi untuk variasi -->
                 </div>
                 <p id="modal-product-deskripsi"></p>
                 <p id="modal-product-harga" class="price"></p>
@@ -491,6 +518,29 @@
             function renderProducts(products) {
                 productGrid.innerHTML = ''; // Clear existing products
 
+                // Create category containers
+                const makananSection = document.createElement('div');
+                makananSection.classList.add('category-section');
+                makananSection.innerHTML = '<h2>Makanan</h2><div class="product-list"></div>';
+
+                const minumanSection = document.createElement('div');
+                minumanSection.classList.add('category-section');
+                minumanSection.innerHTML = '<h2>Minuman</h2><div class="product-list"></div>';
+
+                const cemilanSection = document.createElement('div');
+                cemilanSection.classList.add('category-section');
+                cemilanSection.innerHTML = '<h2>Cemilan</h2><div class="product-list"></div>';
+
+                // Append category sections to the product grid container
+                productGrid.appendChild(makananSection);
+                productGrid.appendChild(minumanSection);
+                productGrid.appendChild(cemilanSection);
+
+                const makananList = makananSection.querySelector('.product-list');
+                const minumanList = minumanSection.querySelector('.product-list');
+                const cemilanList = cemilanSection.querySelector('.product-list');
+
+
                 products.forEach(product => {
                     const productCard = document.createElement('div');
                     productCard.classList.add('product-card');
@@ -499,16 +549,17 @@
                     productCard.dataset.productDeskripsi = product.deskripsi;
                     productCard.dataset.productHarga = product.harga;
                     productCard.dataset.productPict = product.product_pict;
+                    productCard.dataset.productCategory = product.category; // Add category data attribute
 
                     const img = document.createElement('img');
                     // Use placehold.co if product_pict is null, empty, or an error occurs
-                    img.src = product.product_pict ? product.product_pict : 'https://placehold.co/250x150?text=No+Image';
+                    img.src = product.product_pict ? product.product_pict : 'https://placehold.co/250x150?text=Tidak+Ada+Gambar';
                     img.alt = product.nama;
 
                     // Add an error handler for the image
                     img.onerror = function() {
                         this.onerror = null; // Prevent infinite loop if placeholder also fails
-                        this.src = 'https://placehold.co/250x150?text=Error+Loading+Image';
+                        this.src = 'https://placehold.co/250x150?text=Gagal+Memuat+Gambar';
                     };
 
 
@@ -520,7 +571,7 @@
 
                     const price = document.createElement('p');
                     price.classList.add('price');
-                    price.textContent = `Price: Rp${parseInt(product.harga).toLocaleString('id-ID')}`;
+                    price.textContent = `Harga: Rp${parseInt(product.harga).toLocaleString('id-ID')}`;
 
                     const detailButton = document.createElement('button');
                     detailButton.classList.add('detail-button');
@@ -532,7 +583,21 @@
                     productCard.appendChild(price);
                     productCard.appendChild(detailButton);
 
-                    productGrid.appendChild(productCard);
+                    // Append product card to the correct category list
+                    switch (product.category) {
+                        case 1:
+                            makananList.appendChild(productCard);
+                            break;
+                        case 2:
+                            minumanList.appendChild(productCard);
+                            break;
+                        case 3:
+                            cemilanList.appendChild(productCard);
+                            break;
+                        default:
+                            // Handle products with no category or unknown category if necessary
+                            break;
+                    }
                 });
 
                 // Re-attach event listeners to the new detail buttons
@@ -560,17 +625,17 @@
                 };
 
                 // Use placehold.co if product_pict is null, empty, or an error occurs
-                modalProductPict.src = selectedProduct.pict ? selectedProduct.pict : 'https://placehold.co/400x300?text=No+Image';
+                modalProductPict.src = selectedProduct.pict ? selectedProduct.pict : 'https://placehold.co/400x300?text=Tidak+Ada+Gambar';
 
                 // Add an error handler for the modal image
                 modalProductPict.onerror = function() {
                     this.onerror = null; // Prevent infinite loop if placeholder also fails
-                    this.src = 'https://placehold.co/400x300?text=Error+Loading+Image';
+                    this.src = 'https://placehold.co/400x300?text=Gagal+Memuat+Gambar';
                 };
 
                 modalProductNama.textContent = selectedProduct.nama;
                 modalProductDeskripsi.textContent = selectedProduct.deskripsi;
-                modalProductHarga.textContent = `Price: Rp${parseInt(selectedProduct.harga).toLocaleString('id-ID')}`;
+                modalProductHarga.textContent = `Harga: Rp${parseInt(selectedProduct.harga).toLocaleString('id-ID')}`;
                 modalQuantity = 1;
                 modalItemQuantityDisplay.textContent = modalQuantity;
 
