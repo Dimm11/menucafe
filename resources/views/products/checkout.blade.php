@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         /* Checkout Page Styles - Based on Index Page */
@@ -25,7 +24,7 @@
         }
 
         .checkout-container {
-            max-width: 600px;
+            width: 600px; /* Fixed width */
             margin: 20px auto;
             background-color: #ffffff; /* White background */
             padding: 30px; /* Increased padding */
@@ -64,7 +63,7 @@
             color: #7b5c45; /* Matching the sort button */
         }
 
-        .checkout-form label {
+        .checkout-form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
@@ -81,7 +80,7 @@
             box-sizing: border-box; /* to include padding in width */
             appearance: none; /* Remove default arrow in some browsers */
             -webkit-appearance: none; /* For Safari and Chrome */
-            background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            /* Removed background-image to remove dropdown icon */
             background-repeat: no-repeat;
             background-position-x: 95%;
             background-position-y: 5px;
@@ -157,9 +156,9 @@
         </div>
 
         <div class="checkout-summary">
-            <h3>Summary</h3>
+            <h3>Ringkasan</h3>
             <div class="summary-item">
-                <span>Items</span>
+                <span>Jumlah Item</span>
                 <span id="checkout-summary-items-count">0</span>
             </div>
             <div class="summary-total">
@@ -169,18 +168,19 @@
         </div>
 
         <form id="checkout-form" class="checkout-form">
-            <div class="form-group">
+            <div class="checkout-form-group">
                 <label for="table_number">No. Meja</label>
                 <input type="number" id="table_number" name="table_number" placeholder="Masukkan Nomor Meja" min="1" required>
             </div>
 
-            <div class="form-group">
+            <div class="checkout-form-group">
                 <label for="payment_method">Metode Pembayaran</label>
                 <select id="payment_method" name="payment_method">
-                    <option value="" selected disabled>-- Pilih Metode Pembayaran --s</option>
+                    <option value="" selected disabled>-- Pilih Metode Pembayaran --</option>
                     <option value="QRIS">QRIS</option>
                     <option value="Tunai">Tunai</option>
                 </select>
+                <div id="payment-method-info" style="margin-top: 10px; font-style: italic; color: #555;"></div>
                 <img id="qris-image" src="{{ asset('assets/QRIS.jpg') }}" alt="QRIS Code">
             </div>
 
@@ -199,9 +199,19 @@
             const checkoutForm = document.getElementById('checkout-form');
             const paymentMethodSelect = document.getElementById('payment_method');
             const qrisImage = document.getElementById('qris-image');
+            const paymentMethodInfo = document.getElementById('payment-method-info');
+            // Removed checkoutButton reference as it's no longer disabled by script
 
             // Retrieve selected items from session storage
             let selectedCartItems = JSON.parse(sessionStorage.getItem('selectedCartItems') || '[]');
+
+            // Check for table number in session storage and pre-fill if found
+            const savedTableNumber = sessionStorage.getItem('tableNumber');
+            const tableNumberInput = document.getElementById('table_number');
+            if (savedTableNumber) {
+                tableNumberInput.value = savedTableNumber;
+                tableNumberInput.readOnly = true; // Make the input read-only
+            }
 
             function updateCheckoutSummary() {
                 let totalPrice = 0;
@@ -214,24 +224,32 @@
                 });
 
                 checkoutSummaryItemsCount.textContent = totalItems;
-                checkoutSummaryTotalPriceDisplay.textContent = `Rp. ${formatPrice(totalPrice)}`;
-            }
+            checkoutSummaryTotalPriceDisplay.textContent = `Rp. ${formatPrice(totalPrice)}`;
+        }
 
-            function formatPrice(price) {
-                return price.toFixed(0).replace(/\d(?=(\d{3})+(?!\d))/g, '$&.'); // Format to Indonesian Rupiah style
-            }
+        function formatPrice(price) {
+            // Use Intl.NumberFormat to format price in Indonesian Rupiah style
+            return new Intl.NumberFormat('id-ID').format(price);
+        }
 
-            // Function to show/hide QRIS image based on selection
-            function handlePaymentMethodChange() {
-                if (paymentMethodSelect.value === 'QRIS') {
-                    qrisImage.style.display = 'block';
-                } else {
-                    qrisImage.style.display = 'none';
-                }
+        // Function to show/hide QRIS image and display payment method info based on selection
+        function handlePaymentMethodChange() {
+            const selectedMethod = paymentMethodSelect.value;
+            if (selectedMethod === 'QRIS') {
+                qrisImage.style.display = 'block';
+                paymentMethodInfo.textContent = "Harap konfirmasi pembayaran ke kasir";
+            } else if (selectedMethod === 'Tunai') {
+                qrisImage.style.display = 'none';
+                paymentMethodInfo.textContent = "Harap melakukan pembayaran di kasir";
+            } else {
+                qrisImage.style.display = 'none';
+                paymentMethodInfo.textContent = ""; // Clear text if no method is selected
             }
+        }
 
             // Initial check on page load
             handlePaymentMethodChange();
+            // Removed checkPaymentMethodSelection call and event listener
 
             // Add event listener for changes
             paymentMethodSelect.addEventListener('change', handlePaymentMethodChange);
@@ -242,6 +260,12 @@
 
                 const tableNumber = document.getElementById('table_number').value;
                 const paymentMethod = document.getElementById('payment_method').value;
+
+                // Check if payment method is selected
+                if (paymentMethod === "") {
+                    alert("Mohon pilih metode pembayaran.");
+                    return; // Stop form submission
+                }
 
                 if (!tableNumber) {
                     alert("Nomor meja harus diisi.");
@@ -280,12 +304,22 @@
                         return response.json();
                     })
                     .then(data => {
-                        alert("Pesanan berhasil dibuat! Order ID: " + data.order_id);
+                        alert("Pesanan berhasil dibuat untuk nomor meja " + sessionStorage.getItem('tableNumber') +"! Nomor pesanan: " + data.order_id);
+
+                        // Retrieve the main cart items
+                        let mainCartItems = JSON.parse(sessionStorage.getItem('cart') || '[]');
+
+                        // Get the names of the items that were just checked out
+                        const checkedOutItemNames = selectedCartItems.map(item => item.name);
+
+                        // Filter out the checked out items from the main cart
+                        mainCartItems = mainCartItems.filter(item => !checkedOutItemNames.includes(item.name));
+
+                        // Save the updated main cart back to session storage
+                        sessionStorage.setItem('cart', JSON.stringify(mainCartItems));
+
                         // Clear selected items from session storage after successful checkout
                         sessionStorage.removeItem('selectedCartItems');
-                        // Optionally, you might also want to update the main cart in sessionStorage
-                        // to remove the items that were just checked out. This depends on your desired flow.
-                        // For now, we only clear selected items.
 
                         window.location.href = '/products'; // Redirect to products page after successful checkout (or any other page you want)
                     })
