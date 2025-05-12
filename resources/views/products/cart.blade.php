@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Keranjang</title>
     <!-- Assuming styles.css is your base CSS if needed -->
     <!-- <link rel="stylesheet" href="{{ asset('css/styles.css') }}"> -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -417,17 +417,17 @@
     <div class="cart-container">
         <section class="cart-items-section">
             <div class="cart-header">
-                <h2 class="cart-title">Shopping Cart</h2>
+                <h2 class="cart-title">Keranjang</h2>
                 <!-- This count shows TOTAL items in cart -->
-                <span class="cart-items-count"> <span id="cart-total-item-count-header">0</span> Total Items</span>
+                <span class="cart-items-count"> <span id="cart-total-item-count-header">0</span> Total Item</span>
             </div>
             <div class="select-all">
                 <input type="checkbox" id="select-all-checkbox">
-                <label for="select-all-checkbox">Select All</label>
+                <label for="select-all-checkbox">Pilih Semua</label>
             </div>
 
             <div id="cart-item-list-container">
-                <p id="empty-cart-message-cart-page" style="display:none;">Your cart is empty.</p>
+                <p id="empty-cart-message-cart-page" style="display:none;">Keranjang Anda kosong.</p>
                 <ul id="cart-item-list-cart-page" style="list-style: none; padding-left: 0;">
                     <!-- Cart items will be rendered here by JavaScript -->
                 </ul>
@@ -440,17 +440,17 @@
 
         <section class="cart-summary-section">
             <div class="cart-summary">
-                <h3>Summary (Selected Items)</h3>
+                <h3>Ringkasan</h3>
                 <div class="summary-item">
-                    <span class="summary-items-label">Selected Items</span>
+                    <span class="summary-items-label">Item Terpilih</span>
                     <span id="summary-selected-items-count">0</span>
                 </div>
                 <div class="summary-total">
-                    <span>Total Price</span>
+                    <span>Total Harga</span>
                     <span id="summary-selected-total-price">Rp. 0</span>
                 </div>
                 <!-- Updated link to use route() helper if blade -->
-                <a href="{{ route('checkout.index') }}" class="process-checkout-button" id="process-checkout-button" role="button" disabled>Process Checkout</a>
+                <a href="{{ route('checkout.index') }}" class="process-checkout-button" id="process-checkout-button" role="button" disabled>Proses Checkout</a>
             </div>
         </section>
     </div>
@@ -540,7 +540,7 @@
                 let newQuantity = currentQuantity + change;
 
                 if (newQuantity < 1) {
-                    if (confirm('Set quantity to 0? This will remove the item from your cart.')) {
+                    if (confirm('Atur jumlah menjadi 0? Ini akan menghapus item dari keranjang Anda.')) {
                         removeItemFromCart(productIndex);
                     }
                     return;
@@ -556,7 +556,7 @@
             const button = event.currentTarget; // Use currentTarget
              // Find the index from the checkbox within the same cart item
             const productIndex = parseInt(button.closest('.cart-item').querySelector('.cart-item-checkbox').dataset.productIndex);
-            if (confirm('Are you sure you want to remove this item from the cart?')) {
+            if (confirm('Apakah Anda yakin ingin menghapus item ini dari keranjang?')) {
                 removeItemFromCart(productIndex);
             }
         }
@@ -631,7 +631,7 @@
 
                     totalItemsInCart += item.quantity;
                     const itemTotal = item.price * item.quantity;
-                    const imageUrl = (item.pict && item.pict !== '') ? item.pict : 'https://placehold.co/80x80?text=No+Image';
+                    const imageUrl = (item.pict && item.pict !== '') ? item.pict : 'https://placehold.co/80x80?text=Tidak Ada Gambar';
 
                     const listItem = document.createElement('li');
                     listItem.classList.add('cart-item');
@@ -644,8 +644,8 @@
                             <img src="${imageUrl}" alt="${item.name || 'Product Image'}" class="cart-item-image">
                         </div>
                         <div class="cart-item-details">
-                            <h4 class="cart-item-name">${item.name || 'Unnamed Product'}</h4>
-                            <p class="cart-item-category">${item.deskripsi || 'No description'}</p>
+                            <h4 class="cart-item-name">${item.name || 'Produk Tanpa Nama'}</h4>
+                            <p class="cart-item-category">${item.deskripsi || 'Tidak ada deskripsi'}</p>
                         </div>
                         <span class="cart-item-price">Rp. ${formatPrice(itemTotal)}</span>
                         <div class="cart-quantity-controls">
