@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama'); // Product name
             $table->text('deskripsi')->nullable(); // Product description, text type for longer descriptions, nullable
             $table->decimal('harga', 10, 2); // Price, DECIMAL(10, 2) for currency (10 digits total, 2 after decimal point)
+            $table->string('category')->nullable(); // Product category
             $table->timestamps(); // created_at and updated_at
         });
     }

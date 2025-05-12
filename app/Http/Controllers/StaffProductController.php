@@ -36,6 +36,7 @@ class StaffProductController extends Controller
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric|min:0',
             'product_pict' => 'nullable|url|max:255', // Basic URL validation for product picture
+            'category' => 'nullable|integer',
         ]);
 
         Product::create($validatedData);
@@ -61,6 +62,7 @@ class StaffProductController extends Controller
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric|min:0',
             'product_pict' => 'nullable|url|max:255', // Basic URL validation for product picture
+            'category' => 'nullable|integer|in:1,2,3',
         ]);
 
         $product->update($validatedData);
@@ -69,12 +71,12 @@ class StaffProductController extends Controller
     }
 
     /**
-     * Remove the specified product from storage.
+     * Delete the specified product (soft delete).
      */
-    public function destroy(Product $product): RedirectResponse
+    public function delete(Product $product): RedirectResponse
     {
-        $product->delete();
+        $product->update(['is_deleted' => true]);
 
-        return redirect()->route('staff.products.index')->with('success', 'Product deleted successfully!');
+        return redirect()->route('staff.products.index')->with('success', 'Product soft deleted successfully!');
     }
 }

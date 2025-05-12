@@ -15,7 +15,24 @@ class Product extends Model
         'deskripsi',
         'harga',
         'product_pict',
+        'category',
+        'is_deleted', // Add is_deleted to fillable
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Global scope to exclude soft-deleted products
+        static::addGlobalScope('notDeleted', function (\Illuminate\Database\Eloquent\Builder $builder) {
+            $builder->where('is_deleted', false);
+        });
+    }
 
     /**
      * Get all of the workOrderDetails for the Product

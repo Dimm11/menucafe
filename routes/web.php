@@ -49,6 +49,7 @@ Route::prefix('staff')->group(function () {
         Route::post('/products', [StaffProductController::class, 'store'])->name('staff.products.store'); // Store new product
         Route::get('/products/{product}/edit', [StaffProductController::class, 'edit'])->name('staff.products.edit'); // Edit product form
         Route::patch('/products/{product}', [StaffProductController::class, 'update'])->name('staff.products.update'); // Update product
-        Route::delete('/products/{product}', [StaffProductController::class, 'destroy'])->name('staff.products.destroy'); // Delete product
+        // Route::delete('/products/{product}', [StaffProductController::class, 'destroy'])->name('staff.products.destroy'); // Delete product (commented out for soft delete)
+        Route::put('/products/{product}/delete', [StaffProductController::class, 'delete'])->name('staff.products.delete'); // Soft delete product (renamed)
     });
 });

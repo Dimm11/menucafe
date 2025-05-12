@@ -38,6 +38,16 @@
                 <input type="url" class="form-control" id="product_pict" name="product_pict" value="{{ old('product_pict') }}"> {{-- Removed inline styles --}}
             </div>
 
+            <div>
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="category">
+                    <option value="">Select Category</option>
+                    <option value="1" {{ old('category') == 1 ? 'selected' : '' }}>Makanan</option>
+                    <option value="2" {{ old('category') == 2 ? 'selected' : '' }}>Minuman</option>
+                    <option value="3" {{ old('category') == 3 ? 'selected' : '' }}>Cemilan</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-primary">Create Product</button> {{-- Added btn-primary class, removed inline styles --}}
             <a href="{{ route('staff.products.index') }}" style="margin-left: 10px;">Cancel</a> {{-- Kept margin-left for spacing --}}
         </form>

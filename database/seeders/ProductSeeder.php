@@ -19,48 +19,56 @@ class ProductSeeder extends Seeder
                 'deskripsi' => 'Strong black coffee',
                 'harga' => 3.50,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 2, // Minuman
             ],
             [
                 'nama' => 'Cappuccino',
                 'deskripsi' => 'Espresso with steamed milk and foam',
                 'harga' => 4.00,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 2, // Minuman
             ],
             [
                 'nama' => 'Latte',
                 'deskripsi' => 'Espresso with steamed milk',
                 'harga' => 4.00,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 2, // Minuman
             ],
             [
                 'nama' => 'Americano',
                 'deskripsi' => 'Espresso diluted with hot water',
                 'harga' => 3.75,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 2, // Minuman
             ],
             [
                 'nama' => 'Mocha',
                 'deskripsi' => 'Espresso with chocolate syrup and milk',
                 'harga' => 4.50,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 2, // Minuman
             ],
             [
                 'nama' => 'Croissant',
                 'deskripsi' => 'Buttery pastry',
                 'harga' => 2.50,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 1, // Makanan
             ],
             [
                 'nama' => 'Muffin',
                 'deskripsi' => 'Assorted flavors available',
                 'harga' => 3.00,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 3, // Cemilan
             ],
             [
                 'nama' => 'Cheesecake',
                 'deskripsi' => 'Classic New York style cheesecake',
                 'harga' => 5.00,
                 'product_pict' => 'https://placehold.co/500x500', // Placeholder image URL
+                'category' => 1, // Makanan
             ],
             // Add more menu items as needed...
         ]);

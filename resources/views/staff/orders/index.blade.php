@@ -32,7 +32,7 @@
                                 $orderTotal += $detail->sub_total;
                             }
                         @endphp
-                        ${{ number_format($orderTotal, 2) }}
+                        Rp{{ number_format($orderTotal, 0, ',', '.') }}
                     </td>
                     <td>
                         <a href="{{ route('staff.orders.show', $order->id) }}">View Details</a>                    </td>

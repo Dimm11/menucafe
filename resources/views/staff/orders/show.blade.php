@@ -1,12 +1,12 @@
-@extends('layouts.staff') {{-- Use the staff layout --}}
+@extends('layouts.staff')
 
-@section('content') {{-- Start content section --}}
+@section('content') 
 
     <h1>Order Details</h1>
 
-    @if (session('success')) {{-- Check for 'success' session message --}}
-        <div class="alert alert-success"> {{-- Using a common class for alerts --}}
-            {{ session('success') }} {{-- Display success message --}}
+    @if (session('success')) 
+        <div class="alert alert-success"> 
+            {{ session('success') }}
         </div>
     @endif
 

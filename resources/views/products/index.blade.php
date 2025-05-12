@@ -582,7 +582,6 @@
 
             // Modal elements
             // const productModal = document.getElementById('productModal'); // Moved up
-            const modalCloseButton = productModal.querySelector('.close-button');
             const modalProductPict = document.getElementById('modal-product-pict');
             const modalProductNama = document.getElementById('modal-product-nama');
             const modalProductDeskripsi = document.getElementById('modal-product-deskripsi');
@@ -645,7 +644,8 @@
                             price: productPrice,
                             quantity: quantityToAdd,
                             pict: productPict,
-                            deskripsi: productDeskripsi
+                            deskripsi: productDeskripsi,
+                            category: selectedProduct.category // Add category to cart item
                         });
                     }
                     sessionStorage.setItem('cart', JSON.stringify(cart)); // Save cart to session storage
@@ -654,12 +654,6 @@
                     selectedProduct = null;
                     modalQuantity = 1;
                 }
-            });
-
-            modalCloseButton.addEventListener('click', function () {
-                productModal.style.display = "none";
-                selectedProduct = null;
-                modalQuantity = 1;
             });
 
             modalBackButton.addEventListener('click', function () {
