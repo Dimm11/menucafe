@@ -17,6 +17,7 @@ class Product extends Model
         'product_pict',
         'category',
         'is_deleted', // Add is_deleted to fillable
+        'image_base64', // Add image_base64 to fillable
     ];
 
     /**

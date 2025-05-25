@@ -37,7 +37,13 @@ class StaffProductController extends Controller
             'harga' => 'required|numeric|min:0',
             'product_pict' => 'nullable|url|max:255', // Basic URL validation for product picture
             'category' => 'nullable|integer',
+            'image' => 'nullable|image|max:2048', // Add validation for image file (max 2MB)
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $validatedData['image_base64'] = base64_encode(file_get_contents($image->getRealPath()));
+        }
 
         Product::create($validatedData);
 

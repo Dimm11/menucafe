@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('staff.products.store') }}">
+        <form method="POST" action="{{ route('staff.products.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div> {{-- Removed inline styles --}}
@@ -36,6 +36,11 @@
             <div> {{-- Removed inline styles --}}
                 <label for="product_pict">Product Picture URL (Optional)</label> {{-- Removed inline styles --}}
                 <input type="url" class="form-control" id="product_pict" name="product_pict" value="{{ old('product_pict') }}"> {{-- Removed inline styles --}}
+            </div>
+
+            <div>
+                <label for="image">Product Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*">
             </div>
 
             <div>
