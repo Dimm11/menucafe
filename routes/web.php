@@ -23,6 +23,10 @@ Route::get('/cart', [ProductController::class, 'cart'])->name('cart.index');
 Route::get('/checkout', [ProductController::class, 'checkout'])->name('checkout.index');
 Route::post('/orders', [WorkOrderController::class, 'store'])->name('orders.store');
 
+Route::get('/about', function () {
+    return view('cafe_description');
+})->name('cafe.description');
+
 // Staff Routes - Authentication, Dashboard, Orders, and Staff User & Product Management
 Route::prefix('staff')->group(function () {
     // Staff Authentication Routes
@@ -33,6 +37,8 @@ Route::prefix('staff')->group(function () {
     // Staff Dashboard and Management Routes - Protected by auth:staff middleware
     Route::middleware(['auth:staff'])->group(function () {
         Route::get('/dashboard', [StaffDashboardController::class, 'index'])->name('staff.dashboard');
+        Route::get('/sales-data', [StaffDashboardController::class, 'fetchSalesData'])->name('staff.sales.data');
+        Route::get('/sales-export', [StaffDashboardController::class, 'exportSalesData'])->name('staff.sales.export');
         Route::get('/orders', [StaffOrderController::class, 'index'])->name('staff.orders.index');
         Route::get('/orders/{order}', [StaffOrderController::class, 'show'])->name('staff.orders.show');
         Route::patch('/orders/{order}/status', [StaffOrderController::class, 'updateStatus'])->name('staff.orders.status.update');
