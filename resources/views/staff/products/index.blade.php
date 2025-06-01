@@ -10,7 +10,7 @@
         </div>
     @endif
 
-    <div style="margin-bottom: 20px;"> {{-- Kept margin-bottom for spacing --}}
+    <div>
         <a href="{{ route('staff.products.create') }}" class="btn-primary">
             Add New Product
         </a>

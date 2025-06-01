@@ -4,27 +4,27 @@
 
     <h1>Order List</h1>
 
-    <table>
-        <thead>
+    <table class="sales-table">
+        <thead class="sales-table-header">
             <tr>
-                <th>Order ID</th>
-                <th>Table No.</th>
-                <th>Status</th>
-                <th>Metode Pembayaran</th>
-                <th>Created At</th>
-                <th>Total</th>
-                <th>Actions</th>
+                <th class="sales-table-header-cell">Order ID</th>
+                <th class="sales-table-header-cell">Table No.</th>
+                <th class="sales-table-header-cell">Status</th>
+                <th class="sales-table-header-cell">Metode Pembayaran</th>
+                <th class="sales-table-header-cell">Created At</th>
+                <th class="sales-table-header-cell">Total</th>
+                <th class="sales-table-header-cell">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="sales-table-body">
             @foreach($orders as $order) {{-- Loop through orders passed from controller --}}
                 <tr>
-                    <td>{{ $order->id }}</td>
-                    <td>{{ $order->no_meja }}</td>
-                    <td>{{ $order->status }}</td>
-                    <td>{{ $order->metode_pembayaran }}</td>
-                    <td>{{ $order->created_at }}</td>
-                    <td>
+                    <td class="sales-table-data-cell">{{ $order->id }}</td>
+                    <td class="sales-table-data-cell">{{ $order->no_meja }}</td>
+                    <td class="sales-table-data-cell">{{ $order->status }}</td>
+                    <td class="sales-table-data-cell">{{ $order->metode_pembayaran }}</td>
+                    <td class="sales-table-data-cell">{{ $order->created_at }}</td>
+                    <td class="sales-table-data-cell">
                         {{-- Calculate order total here (you might want to move this logic to the model later) --}}
                         @php
                             $orderTotal = 0;

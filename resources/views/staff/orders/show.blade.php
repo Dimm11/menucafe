@@ -34,8 +34,8 @@
                 <tr>
                     <td>{{ $detail->product->nama }}</td> {{-- Access product name via relationship --}}
                     <td>{{ $detail->qty }}</td>
-                    <td>${{ number_format($detail->harga, 2) }}</td>
-                    <td>${{ number_format($detail->sub_total, 2) }}</td>
+                    <td>Rp{{ number_format($detail->harga, 0, ',', '.') }}</td>
+                    <td>Rp{{ number_format($detail->sub_total, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -50,7 +50,7 @@
                             $orderTotal += $detail->sub_total;
                         }
                     @endphp
-                    ${{ number_format($orderTotal, 2) }}
+                    Rp{{ number_format($orderTotal, 0, ',', '.') }}
                 </td>
             </tr>
         </tfoot>
@@ -65,10 +65,10 @@
             <div> {{-- Removed inline styles --}}
                 <label for="status">Status:</label>
                 <select name="status" id="status"> {{-- Removed inline styles --}}
-                    <option value="belum_bayar" {{ $order->status == 'belum_bayar' ? 'selected' : '' }}>Belum Bayar</option>
-                    <option value="sudah_bayar" {{ $order->status == 'sudah_bayar' ? 'selected' : '' }}>Sudah Bayar</option>
-                    <option value="canceled" {{ $order->status == 'canceled' ? 'selected' : '' }}>Canceled</option>
-                    <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                    <option value="Belum Bayar" {{ $order->status == 'Belum Bayar' ? 'selected' : '' }}>Belum Bayar</option>
+                    <option value="Sudah Bayar" {{ $order->status == 'Sudah Bayar' ? 'selected' : '' }}>Sudah Bayar</option>
+                    <option value="Canceled" {{ $order->status == 'Canceled' ? 'selected' : '' }}>Canceled</option>
+                    <option value="Completed" {{ $order->status == 'Completed' ? 'selected' : '' }}>Completed</option>
                 </select>
             </div>
 

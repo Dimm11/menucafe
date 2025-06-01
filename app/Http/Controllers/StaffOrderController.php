@@ -33,7 +33,7 @@ class StaffOrderController extends Controller
     {
         // 1. Validate the incoming status value
         $validatedData = $request->validate([
-            'status' => 'required|in:pending,preparing,served,completed', // Validate that status is one of the allowed enum values
+            'status' => 'required|in:Belum Bayar,Sudah Bayar,Canceled,Completed', // Validate that status is one of the allowed enum values
         ]);
 
         // 2. Update the order's status
