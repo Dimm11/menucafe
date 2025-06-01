@@ -35,15 +35,21 @@ class StaffProductController extends Controller
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric|min:0',
-            'product_pict' => 'nullable|url|max:255', // Basic URL validation for product picture
             'category' => 'nullable|integer',
             'image' => 'nullable|image|max:2048', // Add validation for image file (max 2MB)
         ]);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $validatedData['image_base64'] = base64_encode(file_get_contents($image->getRealPath()));
+            $imageName = time().'.'.$image->extension();
+            $image->move(public_path('product_photo'), $imageName);
+            $validatedData['product_pict'] = 'product_photo/' . $imageName; // Save the path relative to the public directory
+        } else {
+            $validatedData['product_pict'] = null; // Set to null if no image is uploaded
         }
+
+        // Remove image_base64 if it exists in validatedData as we are now saving the path
+        unset($validatedData['image_base64']);
 
         Product::create($validatedData);
 
@@ -67,9 +73,21 @@ class StaffProductController extends Controller
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric|min:0',
-            'product_pict' => 'nullable|url|max:255', // Basic URL validation for product picture
             'category' => 'nullable|integer|in:1,2,3',
+            'image' => 'nullable|image|max:2048', // Add validation for image file (max 2MB)
         ]);
+
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($product->product_pict && file_exists(public_path($product->product_pict))) {
+                unlink(public_path($product->product_pict));
+            }
+
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->extension();
+            $image->move(public_path('product_photo'), $imageName);
+            $validatedData['product_pict'] = 'product_photo/' . $imageName; // Save the path relative to the public directory
+        }
 
         $product->update($validatedData);
 

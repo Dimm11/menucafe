@@ -36,7 +36,13 @@
                     <td>{{ $product->nama }}</td> {{-- Removed inline styles --}}
                     <td>{{ $product->deskripsi }}</td> {{-- Removed inline styles --}}
                     <td>Rp{{ number_format($product->harga, 0, ',', '.') }}</td> {{-- Removed inline styles --}}
-                    <td><img src="{{ $product->product_pict }}" alt="{{ $product->nama }}" style="max-width: 100px; max-height: 100px;"></td> {{-- Kept inline style for image size --}}
+                    <td>
+                        @if ($product->product_pict)
+                            <img src="{{ asset($product->product_pict) }}" alt="{{ $product->nama }}" style="max-width: 100px; max-height: 100px;" onerror="this.onerror=null; this.src='https://placehold.co/100x100?text=Gambar+Tidak+Ditemukan';">
+                        @else
+                            <img src="https://placehold.co/100x100?text=Tidak+Ada+Gambar" alt="Tidak Ada Gambar" style="max-width: 100px; max-height: 100px;">
+                        @endif
+                    </td> {{-- Kept inline style for image size --}}
                     <td>
                         @if ($product->category === 1)
                             Makanan

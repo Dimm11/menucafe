@@ -33,11 +33,6 @@
                 <input type="number" class="form-control" id="harga" name="harga" value="{{ old('harga') }}" required step="0.01"> {{-- Removed inline styles --}}
             </div>
 
-            <div> {{-- Removed inline styles --}}
-                <label for="product_pict">Product Picture URL (Optional)</label> {{-- Removed inline styles --}}
-                <input type="url" class="form-control" id="product_pict" name="product_pict" value="{{ old('product_pict') }}"> {{-- Removed inline styles --}}
-            </div>
-
             <div>
                 <label for="image">Product Image</label>
                 <input type="file" class="form-control" id="image" name="image" accept="image/*">

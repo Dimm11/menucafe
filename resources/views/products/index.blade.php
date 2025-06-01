@@ -895,11 +895,10 @@
                     productCard.dataset.productHarga = product.harga;
                     productCard.dataset.productPict = product.product_pict;
                     productCard.dataset.productCategory = product.category; // Add category data attribute
-                    productCard.dataset.imageBase64 = product.image_base64; // Add base64 image data attribute
 
                     const img = document.createElement('img');
-                    // Use base64 image if available, otherwise use product_pict or a placeholder
-                    img.src = product.image_base64 ? `data:image/*;base64,${product.image_base64}` : (product.product_pict ? product.product_pict : 'https://placehold.co/250x150?text=Tidak+Ada+Gambar');
+                    // Use product_pict path or a placeholder
+                    img.src = product.product_pict ? '/' + product.product_pict : 'https://placehold.co/250x150?text=Tidak+Ada+Gambar';
                     img.alt = product.nama;
 
                     // Add an error handler for the image
@@ -968,11 +967,10 @@
                     deskripsi: productCard.dataset.productDeskripsi,
                     harga: parseFloat(productCard.dataset.productHarga),
                     pict: productCard.dataset.productPict,
-                    imageBase64: productCard.dataset.imageBase64 // Get base64 data
                 };
 
-                // Use base64 image if available, otherwise use product_pict or a placeholder
-                modalProductPict.src = selectedProduct.imageBase64 ? `data:image/*;base64,${selectedProduct.imageBase64}` : (selectedProduct.pict ? selectedProduct.pict : 'https://placehold.co/400x300?text=Tidak+Ada+Gambar');
+                // Use product_pict path or a placeholder
+                modalProductPict.src = selectedProduct.pict ? '/' + selectedProduct.pict : 'https://placehold.co/400x300?text=Tidak+Ada+Gambar';
 
                 // Add an error handler for the modal image
                 modalProductPict.onerror = function() {
@@ -1048,7 +1046,7 @@
                     // Determine the image URL to store in the cart.
                     // Use a placeholder if the original is null/empty OR if it failed to load.
                     // We'll use the modalProductPict's current src as it has the error handler.
-                    const productPict = modalProductPict.src;
+                    const productPict = selectedProduct.pict; // Use the stored path
                     const productDeskripsi = selectedProduct.deskripsi;
                     const quantityToAdd = parseInt(modalItemQuantityDisplay.textContent);
 
