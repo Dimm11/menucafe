@@ -20,6 +20,7 @@
         {{-- Add more staff navigation links here later --}}
         {{-- Example with optional icon: --}}
         {{-- <a href="#"><i class="fas fa-cog"></i> Settings</a> --}}
+        @yield('sidebar-footer') {{-- Section for content at the bottom of the sidebar --}}
     </nav>
 
     {{-- Main Content Area --}}

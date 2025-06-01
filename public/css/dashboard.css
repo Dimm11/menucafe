@@ -1,0 +1,130 @@
+/* Add custom styles here */
+
+.dashboard-divider {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.sales-overview-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.sales-filter-form {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.sales-filter-form > * + * {
+    margin-left: 16px; /* space-x-4 is 1rem or 16px */
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+}
+
+.form-input {
+    margin-top: 4px;
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding: 8px 12px; /* Added padding for better appearance */
+    font-size: 14px;
+}
+
+.form-input:focus {
+    border-color: #4f46e5; /* indigo-500 */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5); /* Equivalent of ring-indigo-500 */
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px; /* px-4 py-2 */
+    border-width: 1px;
+    border-color: transparent;
+    font-size: 14px; /* text-sm */
+    font-weight: 500; /* font-medium */
+    border-radius: 6px; /* rounded-md */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+    cursor: pointer;
+    text-decoration: none; /* Ensure it doesn't look like a link if used on an anchor */
+}
+
+.btn-primary {
+    color: #fff; /* text-white */
+    background-color: #2f855a; /* bg-green-600 */
+}
+
+.btn-primary:hover {
+    background-color: #276749; /* hover:bg-green-700 */
+}
+
+.btn-secondary {
+    color: #4a5568; /* text-gray-700 */
+    background-color: #f6e05e; /* bg-yellow-400 */
+}
+
+.btn-secondary:hover {
+    background-color: #f2c94c; /* hover:bg-yellow-500 */
+}
+
+.btn:focus {
+    outline: none; /* focus:outline-none */
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5), 0 0 #0000; /* focus:ring-2 focus:ring-offset-2 focus:ring-green-500 or yellow-500 */
+}
+
+.sales-chart-container {
+    margin-bottom: 24px;
+}
+
+.sales-data-title {
+    font-size: 20px; /* text-xl */
+    font-weight: bold; /* font-bold */
+    margin-bottom: 8px; /* mb-2 */
+}
+
+.sales-table {
+    min-width: 100%;
+    border-collapse: collapse; /* To handle borders properly */
+    border: 1px solid #e2e8f0; /* border border-gray-300 */
+}
+
+.sales-table-header {
+    background-color: #f7fafc; /* bg-gray-50 */
+}
+
+.sales-table-header-cell {
+    padding: 12px 24px; /* px-6 py-3 */
+    text-align: left;
+    font-size: 12px; /* text-xs */
+    font-weight: 500; /* font-medium */
+    color: #a0aec0; /* text-gray-500 */
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* tracking-wider */
+}
+
+.sales-table-body {
+    background-color: #fff; /* bg-white */
+}
+
+.sales-table-body tr {
+    border-bottom: 1px solid #edf2f7; /* divide-y divide-gray-200 */
+}
+
+.sales-table-body tr:last-child {
+    border-bottom: none; /* Remove border for the last row */
+}
+
+.sales-table-data-cell {
+    padding: 16px 24px; /* px-6 py-4 */
+    white-space: nowrap;
+}

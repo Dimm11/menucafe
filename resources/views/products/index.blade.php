@@ -667,8 +667,8 @@
             }
 
             #product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 20px;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
             }
 
             .modal {
@@ -752,6 +752,11 @@
 
             .product-card img {
                 height: 150px;
+            }
+
+            .category-section .product-list {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
             }
         }
     </style>

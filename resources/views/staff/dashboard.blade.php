@@ -2,44 +2,49 @@
 
 @section('content') {{-- Start content section --}}
 
-    <form method="POST" action="{{ route('staff.logout') }}"> {{-- Logout form --}}
-        @csrf {{-- CSRF token --}}
-        <button type="submit" style="padding: 10px 15px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button> {{-- Logout button --}}
-    </form>
+<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
-    <hr style="margin-top: 30px; margin-bottom: 30px;">
+    <hr class="dashboard-divider"> {{-- Tailwind margin classes --}}
 
-    <h2>Sales Overview</h2>
+    <h2 class="sales-overview-title">Sales Overview</h2> {{-- Tailwind text and margin classes --}}
 
     {{-- Date Filter Form --}}
-    <form id="sales-filter-form" style="margin-bottom: 20px;">
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date">
+    <form id="sales-filter-form" class="sales-filter-form"> {{-- Tailwind margin, flex, items, and space classes --}}
+        <div>
+            <label for="start_date" class="form-label">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" class="form-input"> {{-- Tailwind form input classes --}}
+        </div>
 
-        <label for="end_date" style="margin-left: 10px;">End Date:</label>
-        <input type="date" id="end_date" name="end_date">
+        <div>
+            <label for="end_date" class="form-label">End Date:</label>
+            <input type="date" id="end_date" name="end_date" class="form-input"> {{-- Tailwind form input classes --}}
+        </div>
 
-        <button type="submit" style="margin-left: 10px; padding: 5px 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Filter</button>
-        <button type="button" id="export-excel" style="margin-left: 10px; padding: 5px 10px; background-color: #ffc107; color: black; border: none; border-radius: 4px; cursor: pointer;">Export to Excel</button>
+        <button type="submit" class="btn btn-primary">
+            Filter
+        </button> {{-- Tailwind button classes --}}
+        <button type="button" id="export-excel" class="btn btn-secondary">
+            Export to Excel
+        </button> {{-- Tailwind button classes --}}
     </form>
 
     {{-- Sales Chart --}}
-    <div style="margin-bottom: 30px;">
+    <div class="sales-chart-container"> {{-- Tailwind margin class --}}
         <canvas id="salesChart"></canvas>
     </div>
 
     {{-- Sales Table --}}
-    <h3>Sales Data</h3>
-    <table id="salesTable" border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
+    <h3 class="sales-data-title">Sales Data</h3> {{-- Tailwind text and margin classes --}}
+    <table id="salesTable" class="sales-table"> {{-- Tailwind table classes --}}
+        <thead class="sales-table-header"> {{-- Tailwind table header classes --}}
             <tr>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Total Amount</th>
-                <th>Payment Method</th>
+                <th scope="col" class="sales-table-header-cell">Order ID</th> {{-- Tailwind table header cell classes --}}
+                <th scope="col" class="sales-table-header-cell">Date</th> {{-- Tailwind table header cell classes --}}
+                <th scope="col" class="sales-table-header-cell">Total Amount</th> {{-- Tailwind table header cell classes --}}
+                <th scope="col" class="sales-table-header-cell">Payment Method</th> {{-- Tailwind table header cell classes --}}
             </tr>
         </thead>
-        <tbody>
+        <tbody class="sales-table-body"> {{-- Tailwind table body classes --}}
             {{-- Sales data will be loaded here via JavaScript --}}
         </tbody>
     </table>
@@ -72,10 +77,10 @@
                             const row = salesTableBody.insertRow();
                             const saleDate = new Date(sale.created_at).toLocaleDateString('id-ID');
                             row.innerHTML = `
-                                <td>${sale.id}</td>
-                                <td>${saleDate}</td>
-                                <td>Rp ${parseFloat(sale.total_amount).toLocaleString('id-ID')}</td>
-                                <td>${sale.metode_pembayaran}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">${sale.id}</td> {{-- Tailwind table cell classes --}}
+                                <td class="px-6 py-4 whitespace-nowrap">${saleDate}</td> {{-- Tailwind table cell classes --}}
+                                <td class="px-6 py-4 whitespace-nowrap">Rp ${parseFloat(sale.total_amount).toLocaleString('id-ID')}</td> {{-- Tailwind table cell classes --}}
+                                <td class="px-6 py-4 whitespace-nowrap">${sale.metode_pembayaran}</td> {{-- Tailwind table cell classes --}}
                             `;
                         });
 
@@ -98,7 +103,7 @@
                 const totals = data.map(sale => parseFloat(sale.total_amount));
 
                 salesChart = new Chart(salesChartCanvas, {
-                    type: 'bar', // or 'line', 'pie', etc.
+                    type: 'line', // or 'line', 'pie', etc.
                     data: {
                         labels: dates,
                         datasets: [{
