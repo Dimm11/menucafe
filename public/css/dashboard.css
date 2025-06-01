@@ -82,8 +82,27 @@
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.5), 0 0 #0000; /* focus:ring-2 focus:ring-offset-2 focus:ring-green-500 or yellow-500 */
 }
 
-.sales-chart-container {
+.margin-right-5 {
+    margin-right: 2rem;
+}
+
+.sales-charts-container {
+    display: flex;
+    gap: 24px; /* Equivalent to mb-6 on the original container and space between charts */
     margin-bottom: 24px;
+}
+
+.sales-chart-container {
+    flex: 1; /* Allow charts to take equal space */
+}
+
+.sales-chart-container canvas {
+    height: 300px; /* Set a fixed height for the canvases */
+}
+
+.pie-chart-canvas {
+    height: 300px !important;
+    width: 300px !important;
 }
 
 .sales-data-title {
