@@ -4,9 +4,9 @@
 
     <h1>Create New Product</h1>
 
-    <div class="form-container"> {{-- Added class for styling --}}
+    <div class="form-container">
         @if ($errors->any())
-            <div class="alert alert-danger"> {{-- Added alert-danger class --}}
+            <div class="alert alert-danger">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -49,7 +49,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Create Product</button>
-            <a href="{{ route('staff.products.index') }}" style="margin-left: 10px;">Cancel</a> {{-- Kept margin-left for spacing --}}
+            <a href="{{ route('staff.products.index') }}" style="margin-left: 10px;">Cancel</a>
         </form>
     </div>
 

@@ -1,12 +1,14 @@
-@extends('layouts.staff') {{-- Use staff layout --}}
+@extends('layouts.staff')
 
-    @section('content') {{-- Start content section --}}
+    @section('content')
 
-        <div class="form-container" style="max-width: 400px; margin-top: 50px;"> {{-- Added form-container class, kept max-width and margin-top --}}
-            <h1>Staff Login</h1>
+        <div class="form-container" style="max-width: 400px; margin-top: 50px; text-align: center;">
+            <div style="margin: 0 auto 20px auto;">
+                <img src="{{ asset('assets/logo.png') }}" alt="Logo" style="max-width: 150px; height: auto;">
+            </div>
 
-            @if ($errors->any()) {{-- Display validation errors if any --}}
-                <div class="alert alert-danger"> {{-- Added alert-danger class --}}
+            @if ($errors->any())
+                <div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -15,28 +17,21 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login') }}"> {{-- Login form --}}
-                @csrf {{-- CSRF token --}}
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
 
-                <div> {{-- Removed inline styles --}}
-                    <label for="email">Email:</label> {{-- Removed inline styles --}}
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus> {{-- Removed inline styles --}}
+                <div style="text-align: left; margin-bottom: 15px;">
+                    <label for="email">Email:</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus style="width: 100%; padding: 8px;">
                 </div>
 
-                <div> {{-- Removed inline styles --}}
-                    <label for="password">Password:</label> {{-- Removed inline styles --}}
-                    <input id="password" type="password" name="password" required autocomplete="current-password"> {{-- Removed inline styles --}}
+                <div style="text-align: left; margin-bottom: 15px;">
+                    <label for="password">Password:</label>
+                    <input id="password" type="password" name="password" required autocomplete="current-password" style="width: 100%; padding: 8px;">
                 </div>
 
-                <div style="margin-bottom: 15px;"> {{-- Kept margin-bottom for spacing --}}
-                    <div style="display: flex; align-items: center;"> {{-- Kept inline styles for layout --}}
-                        <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="remember" style="margin-left: 5px;">Remember Me</label> {{-- Kept margin-left for spacing --}}
-                    </div>
-                </div>
-
-                <div> {{-- Removed inline styles --}}
-                    <button type="submit" class="btn-primary"> {{-- Added btn-primary class, removed inline styles --}}
+                <div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 10px; background-color: black; color: white; border: none; border-radius: 20px; cursor: pointer;">
                         Login
                     </button>
                 </div>

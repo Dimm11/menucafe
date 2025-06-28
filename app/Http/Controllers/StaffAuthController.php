@@ -3,54 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Import Auth facade
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class StaffAuthController extends Controller
 {
-    /**
-     * Show the staff login form.
-     */
-    public function showLoginForm(): View|RedirectResponse // Update return type to allow RedirectResponse
+
+    public function showLoginForm(): View|RedirectResponse
     {
-        if (Auth::guard('staff')->check()) { // Check if staff is already logged in
-            return redirect()->route('staff.dashboard'); // Redirect to dashboard if already logged in
+        if (Auth::guard('staff')->check()) {
+            return redirect()->route('staff.dashboard');
         }
 
-        return view('staff.auth.login'); // Show login form if not logged in
+        return view('staff.auth.login');
     }
 
-    /**
-     * Handle staff login submission.
-     */
     public function login(Request $request): RedirectResponse
     {
-        $credentials = $request->validate([ // Validate login data
+        $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        if (Auth::guard('staff')->attempt($credentials, $request->boolean('remember'))) { // Attempt login with 'staff' guard
-            $request->session()->regenerate(); // Regenerate session ID for security
-            return redirect()->intended(route('staff.dashboard')); // Redirect to staff dashboard after login
+        if (Auth::guard('staff')->attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('staff.dashboard'));
         }
 
-        return back()->withErrors([ // If login fails, return back with errors
+        return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
 
-    /**
-     * Log the staff member out of the application.
-     */
     public function logout(Request $request): RedirectResponse
     {
-        Auth::guard('staff')->logout(); // Logout using 'staff' guard
+        Auth::guard('staff')->logout(); 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        $request->session()->invalidate(); // Invalidate the session
-        $request->session()->regenerateToken(); // Regenerate CSRF token
-
-        return redirect()->route('home'); // Redirect to homepage after logout
+        return redirect()->route('login');
     }
 }
